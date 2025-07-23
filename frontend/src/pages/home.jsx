@@ -1,6 +1,7 @@
 import { Box, Paper, TextField, Typography, Button, Grid, Avatar } from "@mui/material"
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';import InputAdornment from '@mui/material/InputAdornment';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import InputAdornment from '@mui/material/InputAdornment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
@@ -14,6 +15,7 @@ import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import PaymentsRoundedIcon from '@mui/icons-material/PaymentsRounded';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import PedalBikeOutlinedIcon from '@mui/icons-material/PedalBikeOutlined';
+import { useNavigate } from "react-router-dom";
 
 
 // ✅ Define full primary palette correctly
@@ -202,317 +204,718 @@ const pricingPlans = [
     },
 ]
 const HomePage = ()=>{
+  const navigate = useNavigate();
     
     return (
 
         <>
-        <Box sx={{width:'90%'}}display='flex' flexDirection='column' mx='auto'>
-            <Box sx={{width:'70%'}} mx='auto'>
-                <Box sx={{width:'100%'}}>
-                    <Box id="hero" display='flex' flexDirection='column' width='80%' my={9} mx='auto'>
-                                <Typography variant="h3" component='h3' fontWeight='bold' fontSize={41} sx={{textAlign: 'center'}}>
-                                Find Your Perfect <span color="#2c5674"> Bike Rental</span> 
-                            </Typography>
-                            <Typography variant="h3" component='h3' fontWeight='bold' fontSize={41} sx={{textAlign: 'center'}}>
-                                Near You
-                            </Typography>
-                            <Box display='flex' flexDirection='column' width='67%' mx='auto' mt={1} >
-                                <Typography variant="caption" sx={{textAlign:'center', opacity:'60%'}} fontSize={18}>
-                                Join thousands of students and urban commuters who rent bikes from local owners. 
-                                Safe, affordable, and convenient transportation at your fingertips.
-                            </Typography>
-                            </Box>
-                            <Box display='flex' flexDirection='column' width='67%' mx='auto' mt={1} mb={1}>
-                            <Paper elevation={5}>
-                                <Box display='flex' alignItems='center' gap={1} m={2} justifyContent='center'>
-                                    <TextField variant="outlined" placeholder="Enter your location..." sx={{width:'70%'}}
-                                    size="small"
-                                    slotProps={{
+        <Box sx={{ width: '90%', mx: 'auto', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ width: { xs: '100%', md: '70%' }, mx: 'auto' }}>
+        <Box id="hero" sx={{ display: 'flex', flexDirection: 'column', width: { xs: '100%', md: '80%' }, my: 9, mx: 'auto' }}>
+          <Typography
+            variant="h3"
+            component="h3"
+            fontWeight="bold"
+            sx={{
+              fontSize: { xs: 28, sm: 34, md: 41 },
+              textAlign: 'center',
+            }}
+          >
+            Find Your Perfect <span style={{ color: '#2c5674' }}>Bike Rental</span>
+          </Typography>
+
+          <Typography
+            variant="h3"
+            component="h3"
+            fontWeight="bold"
+            sx={{
+              fontSize: { xs: 28, sm: 34, md: 41 },
+              textAlign: 'center',
+            }}
+          >
+            Near You
+          </Typography>
+
+          <Box
+            sx={{
+              mt: 2,
+              mx: 'auto',
+              width: { xs: '100%', sm: '85%', md: '67%' },
+            }}
+          >
+            <Typography
+              variant="caption"
+              fontSize={{ xs: 14, md: 18 }}
+              sx={{
+                textAlign: 'center',
+                opacity: '60%',
+              }}
+            >
+              Join thousands of students and urban commuters who rent bikes from local owners. Safe, affordable, and
+              convenient transportation at your fingertips.
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              mt: 3,
+              mb: 2,
+              mx: 'auto',
+              width: { xs: '100%', sm: '90%', md: '67%' },
+            }}
+          >
+            <Paper elevation={5}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: 'center',
+                  gap: 2,
+                  p: 2,
+                }}
+              >
+                <TextField
+                  variant="outlined"
+                  placeholder="Enter your location..."
+                  size="small"
+                  fullWidth
+                  slotProps={{
                                         input: {
                                             startAdornment: (
                                             <InputAdornment position="start">
                                                 <LocationOnOutlinedIcon />
                                             </InputAdornment>
                                             )}}} />
-                                    <ThemeProvider theme={theme}>
-                                        <Button variant="contained" startIcon={<SearchRoundedIcon />}   sx={{ textTransform: 'none' }}>
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    startIcon={<SearchRoundedIcon />}
+                    sx={{ textTransform: 'none', width: { xs: '100%', sm: 'auto' } }}
+                  >
+                    Find Bikes
+                  </Button>
+              </ThemeProvider>
+              </Box>
+            </Paper>
+          </Box>
 
-                                        Find Bikes 
-                                        </Button>
+          <Box sx={{ mt: 2, mx: 'auto', width: { xs: '100%', sm: '80%', md: '50%' } }}>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item>
+                <ThemeProvider theme={buttonTheme1}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      textTransform: 'none',
+                      minWidth: '150px',
+                      height: '36px',
+                    }}
+                  >
+                    Browse Bikes Near You
+                  </Button>
+                </ThemeProvider>
+              </Grid>
+              <Grid item>
+                <ThemeProvider theme={buttonTheme2}>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      textTransform: 'none',
+                      borderRadius: '3px',
+                      borderWidth: '1px',
+                      borderColor: '#46949d',
+                      minWidth: '150px',
+                      height: '36px',
+                    }}
+                    onClick={()=>navigate('/become-rentor')}
+                  >
+                    Become a Rentor
+                  </Button>
+                </ThemeProvider>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+            <Box
+      sx={{
+        width: '100%',
+        minHeight: '50vh',
+        my: 9,
+        mx: 'auto',
+        backgroundColor: '#fbfcfd',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          width: { xs: '90%', sm: '80%', md: '50%', lg: '45%' },
+          backgroundColor: '#e4e9ea',
+          borderRadius: '6px',
+          mb: 1,
+          my: 5,
+          p: { xs: 3, sm: 5 },
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+        }}
+      >
+        <Typography
+          variant="h4"
+          component="h4"
+          fontWeight="bold"
+          sx={{
+            fontSize: { xs: 20, sm: 26 },
+            mb: 1,
+          }}
+        >
+          See Available Bikes On the Map
+        </Typography>
 
-                                    </ThemeProvider>
-                                </Box>
-                            </Paper>
-                        </Box>
-                        <Box display='flex' flexDirection='column' width='50%' mx='auto' mt={1} alignItems='center'>
-                            <Grid display="flex" gap={2}>
-                                <ThemeProvider theme={buttonTheme1}>
+        <Typography
+          variant="caption"
+          sx={{
+            opacity: '60%',
+            fontSize: { xs: 12, sm: 14 },
+            mb: 2,
+          }}
+        >
+          Interactive map showing real-time bike availability in your area
+        </Typography>
 
-                                <Button variant='contained' color='primary'sx={{ textTransform: 'none' }}> Browse Bikes Near You </Button>
-                                </ThemeProvider>
-                                <ThemeProvider theme={buttonTheme2}>
+        <Box
+          sx={{
+            width: '100%',
+            minHeight: '300px',
+            backgroundColor: '#f4f5f6',
+            borderRadius: '6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mt: 2,
+          }}
+        >
+          <ThemeProvider theme={buttonTheme1}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<PlayArrowOutlinedIcon />}
+              sx={{
+                textTransform: 'none',
+                fontWeight: 'bold',
+                fontSize: { xs: 14, sm: 16 },
+                px: 3,
+              }}
+            >
+              View Interactive Map
+            </Button>
+          </ThemeProvider>
+        </Box>
+      </Box>
+    </Box>
+            
+    <Box
+      id="how-it-works"
+      sx={{
+        width: '100%',
+        minHeight: '40vh',
+        my: 9,
+        mx: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          width: { xs: '95%', sm: '90%', md: '80%' },
+          mx: 'auto',
+          borderRadius: '6px',
+          mb: 1,
+          my: 5,
+          p: { xs: 3, sm: 5 },
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Box sx={{ width: '100%', textAlign: 'center', mb: 3 }}>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            sx={{ fontSize: { xs: 20, sm: 24 } }}
+          >
+            How Bikely Works
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ opacity: 0.7, fontSize: { xs: 14, sm: 15 }, mt: 1 }}
+          >
+            Getting your perfect bike rental is simple and straightforward
+          </Typography>
+        </Box>
 
-                                <Button variant='outlined'sx={{ textTransform: 'none', borderStyle: 'solid',borderWidth:'1px', borderRadius:"3px", borderColor:"#46949d" }}> Become a Rentor  </Button>
-                                </ThemeProvider>
-                            </Grid>               
-                        </Box> 
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: { xs: 3, sm: 4 },
+            mt: 2,
+          }}
+        >
+          {activities.map((activity) => (
+            <Box
+              key={activity.id}
+              sx={{
+                width: { xs: '100%', sm: '45%', md: '30%' },
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                gap: 1.5,
+                p: 2,
+              }}
+            >
+              <Avatar sx={{ bgcolor: '#e8ebed' }}>
+                <activity.icon sx={{ color: '#467a54' }} />
+              </Avatar>
 
-                </Box>
-                        
+              <Typography
+                variant="h6"
+                sx={{ fontSize: { xs: 14, sm: 15 }, fontWeight: 600 }}
+              >
+                {activity.id}. {activity.name}
+              </Typography>
 
-                    
-                    </Box>
-
-                    
-                </Box>
-                
+              <Typography
+                variant="body2"
+                sx={{ fontSize: { xs: 12, sm: 13 }, opacity: 0.7 }}
+              >
+                {activity.description}
+              </Typography>
             </Box>
-            <Box display='flex' flexDirection='column' width='100%' minHeight='50vh' my={9} mx='auto' sx={{backgroundColor:'#fbfcfd'}} >
-                <Box display='flex' flexDirection='column' width='45%' mx='auto' backgroundColor='#e4e9ea' justifyContent='center' alignItems='center' sx={{borderRadius:'6px'}} mb={1} p={5} my={5}>
-                    <Typography variant="h4" component='h4' fontWeight='bold'>
-                        See Available Bikes On the Map
+          ))}
+        </Box>
+      </Box>
+    </Box>
+<Box
+      sx={{
+        width: '100%',
+        minHeight: '50vh',
+        my: 1,
+        mx: 'auto',
+        backgroundColor: '#fbfcfd',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          width: { xs: '95%', sm: '85%', md: '60%' },
+          mx: 'auto',
+        borderRadius: '6px',
+          my: 2,
+          p: { xs: 3, sm: 5 },
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Box sx={{ width: '100%', textAlign: 'center', mb: 3, }}>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            sx={{ fontSize: { xs: 20, sm: 24 } }}
+          >
+            What Our Users Say
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ opacity: 0.7, fontSize: { xs: 14, sm: 15 }, mt: 1 }}
+          >
+            Join thousands of satisfied students and urban commuters
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: { xs: 2, sm: 3 },
+            mt: 2,
+          }}
+        >
+          {reviews.map((review, index) => (
+            <Box
+              key={index}
+              sx={{
+                width: { xs: '100%', sm: '280px', md: '240px' },
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1
+
+              }}
+            >
+              <Paper elevation={5}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    bgcolor: 'white',
+                    height: '250px',
+                    gap: 1,
+                    justifyContent: 'center',
+                    p: 2,
+                    borderRadius: '10px',
+                  }}
+                >
+                  <FormatQuoteIcon />
+                  <Typography
+                    variant="body2"
+                    sx={{ opacity: 0.7, mb: 2, fontSize: 14 }}
+                  >
+                    "{review.message}"
+                  </Typography>
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Avatar sx={{ bgcolor: '#e8ebed' }} />
+                    <Grid>
+                      <Typography variant="body2" fontWeight="bold">
+                        {review.name}
+                      </Typography>
+                      <Typography variant="body2" sx={{ opacity: 0.7 }}>
+                        {review.profession}
+                      </Typography>
+                    </Grid>
+                  </Box>
+
+                  <Rating readOnly value={review.rating} />
+                </Box>
+              </Paper>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </Box>
+ <Box
+      id="safety"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        minHeight: '40vh',
+        my: 4,
+        mx: 'auto',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          width: { xs: '90%', sm: '80%', md: '60%' },
+          mx: 'auto',
+          justifyContent: 'center',
+          alignItems: 'center',
+          mb: 3,
+          p: { xs: 3, sm: 5 },
+          borderRadius: '6px',
+        }}
+      >
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            fontSize={{ xs: 20, sm: 25 }}
+          >
+            Trust & Safety First
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ opacity: 0.7 }}
+            fontSize={{ xs: 14, sm: 15 }}
+          >
+            We prioritize your safety with comprehensive verification and protection systems
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: { xs: 2, sm: 3 },
+            mt: 2,
+          }}
+        >
+          {safetyTips.map((tip, index) => (
+            <Box
+              key={index}
+              sx={{
+                width: { xs: '100%', sm: '260px' },
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                gap: 1,
+                p: 2,
+              }}
+            >
+              <Avatar sx={{ bgcolor: '#e8ebed', width: 56, height: 56 }}>
+                <tip.icon sx={{ color: '#467a54' }} />
+              </Avatar>
+
+              <Typography variant="subtitle1" fontWeight="bold" fontSize={14}>
+                {tip.name}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{ opacity: 0.7 }}
+                fontSize={13}
+              >
+                {tip.description}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </Box>
+<Box
+      id="pricing"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        minHeight: '65vh',
+        my: 5,
+        mx: 'auto',
+        backgroundColor: '#fbfcfd',
+        alignItems: 'center',
+      }}
+>
+      <Box
+        sx={{
+          width: { xs: '90%', sm: '80%', md: '60%' },
+          textAlign: 'center',
+          mb: 4,
+          mt:2
+        }}
+      >
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          fontSize={{ xs: 22, sm: 25 }}
+          mt={2}
+        >
+          Transparent Pricing
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ opacity: 0.7 }}
+          fontSize={{ xs: 14, sm: 15 }}
+        >
+          No hidden fees, just simple and fair pricing
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: { xs: 3, sm: 4 },
+          width: '100%',
+          px: 2,
+        }}
+      >
+        {pricingPlans.map((plan, index) => (
+          <Box
+            key={index}
+            sx={{
+              width: { xs: '100%', sm: '360px' },
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1,
+            }}
+          >
+            <Paper elevation={5} sx={{ borderRadius: 2 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  bgcolor: 'white',
+                  height: '100%',
+                  gap: 2,
+                  p: 4,
+                  borderRadius: '10px',
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  fontSize={18}
+                  fontWeight="bold"
+                  textAlign="center"
+                >
+                  {plan.user}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  fontSize={18}
+                  fontWeight="bold"
+                  textAlign="center"
+                  mt={-1}
+                >
+                  {plan.amount}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ opacity: 0.7 }}
+                  fontSize={15}
+                  textAlign="center"
+                  mt={-1}
+                >
+                  {plan.rate}
+                </Typography>
+
+                <Box>
+                  {plan.attributes.map((attribute, i) => (
+                    <Typography key={i} variant="body1" fontSize={15}>
+                      <CheckCircleOutlinedIcon
+                        sx={{ color: 'green', mr: 1 }}
+                      />
+                      {attribute}
                     </Typography>
-                    <Typography variant="caption" sx={{textAlign:'center', opacity:'60%'}} fontSize={11}>
-                             Interactive map showing real-time bike availability in your area
-                             </Typography>
-                                <Box display='flex' flexDirection='column' width='98%' minHeight='300px' mx='auto' backgroundColor='#f4f5f6' justifyContent='center' alignItems='center' sx={{borderRadius:'6px'}} mt={2}>
-                                <ThemeProvider theme={buttonTheme1}>
-                                    <Button variant="contained" color="primary"  sx={{textTransform:'none', fontWeight:'bold'}}startIcon={<PlayArrowOutlinedIcon />}>View Interactive Map</Button>
-                                </ThemeProvider>
-                                </Box>
+                  ))}
                 </Box>
 
-            </Box>
-            <Box id="how-it-works" display='flex' flexDirection='column' width='100%' minHeight='40vh' my={9} mx='auto' >
-                <Box display='flex' flexDirection='column' width='45%' mx='auto'justifyContent='center' alignItems='center' sx={{borderRadius:'6px'}} mb={1} p={5} my={5}>
-                    <Box display='flex' flexDirection='column' width='80%' mx='auto'>
-                        <Typography variant="h5"component='h5' fontWeight='bold' fontSize='25px' textAlign='center'>
-                            How Bikely Works
-                        </Typography>
-                        <Typography variant="body2"sx={{opacity:'70%'}} textAlign='center' fontSize='15px'>
-                            Getting your perfect bike rental is simple and straightforward
-                        </Typography>
-                        
-                    </Box>
-                    <Box display='flex'width='100%' mx='auto' mt={2} gap={2}>
-                        {activities.map((activity)=>(
-                            <Box display='flex' flexDirection='column' alignItems='center' width='180px' bgcolor='white' gap={1} justifyContent='center' p={2}>
-                                <Box display='flex' flexDirection='column' height='40px'>
-                                <Avatar sx={{bgcolor:'#e8ebed'}}>
-                                    <activity.icon  sx={{color:'#467a54'}}/>
-                                </Avatar>
-                                </Box>
-
-                                
-                                <Typography variant="h3" fontSize='14px'>
-                                    {activity.id}. {activity.name}
-                                </Typography>
-                                <Typography variant="body2"sx={{opacity:'70%'}} textAlign='center' fontSize='12px'>
-                                    {activity.description}                      
-                                </Typography>
-                            </Box>
-                        ))}
-                        
-                        
-                    </Box>
+                <Box display="flex" justifyContent="center" mt={2}>
+                  <ThemeProvider theme={plan.themecolor}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{ textTransform: 'none' }}
+                    >
+                      {plan.buttonText}
+                    </Button>
+                  </ThemeProvider>
                 </Box>
-                
-            </Box>
-             <Box display='flex' flexDirection='column' width='100%' minHeight='50vh' my={1} mx='auto' sx={{backgroundColor:'#fbfcfd'}} >
-                <Box display='flex' flexDirection='column' width='45%' mx='auto' justifyContent='center' alignItems='center' sx={{borderRadius:'6px'}} mb={1} p={5} my={2}>
-                    <Box display='flex' flexDirection='column' width='80%' mx='auto'>
-                        <Typography variant="h5"component='h5' fontWeight='bold' fontSize='25px' textAlign='center'>
-                            What Our Users Say
-                        </Typography>
-                        <Typography variant="body2"sx={{opacity:'70%'}} textAlign='center' fontSize='15px'>
-                            Join thousands of satisfied students and urban commuters
-                        </Typography>
-                        
-                    </Box>
-                    <Box display='flex'width='100%' mx='auto' mt={2} gap={2} alignItems='center' justifyContent='center'>
-                        {reviews.map((review)=>(
-                        
-                            <Box display='flex' flexDirection='column' width='230px' gap={1}>
-                               <Paper elevation={5}>
-                                <Box display='flex' flexDirection='column' width='230px' bgcolor='white' height='210px' gap={1} justifyContent='center' p={1} borderRadius='10px'>
-                                    <FormatQuoteIcon />
-                                <Typography variant="h3" fontSize='14px' sx={{opacity:'70%'}} mb={2}>
-                                    " {review.message} "
-                                </Typography>
-                                
-                                <Box display='flex' flexDirection='column' height='45px'>
-                                    <Box display='flex' alignItems='center' gap={1}>
+              </Box>
+            </Paper>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+         <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        minHeight: '30vh',
+        my: 5,
+        px: 2,
+      }}
+    >
+      <Box
+        sx={{
+          width: { xs: '90%', sm: '75%', md: '60%' },
+          mx: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          p: { xs: 3, sm: 5 },
+          textAlign: 'center',
+        }}
+      >
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          fontSize={{ xs: 22, sm: 25 }}
+          mb={1}
+        >
+          Ready to Start Your Journey?
+        </Typography>
 
-                                        <Avatar sx={{bgcolor:'#e8ebed'}}>
-                                        </Avatar>
-                                        <Grid display='flex' flexDirection='column'>
-                                            <Typography variant="body2" fontWeight='bold'>
-                                                {review.name}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{opacity:'70%'}}>
-                                                {review.profession}
-                                            </Typography>
-                                        </Grid>
-                                    
-                                    </Box>
+        <Typography
+          variant="body2"
+          sx={{ opacity: 0.5 }}
+          fontSize={15}
+        >
+          Join our community of cyclists and start experiencing the freedom of
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ opacity: 0.5 }}
+          fontSize={15}
+          mb={2}
+        >
+          bike sharing today
+        </Typography>
 
-                                </Box>
-                                <Rating readOnly name="read-only" value={review.rating}/>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 2,
+            mt: 2,
+          }}
+        >
+          <ThemeProvider theme={theme}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ textTransform: 'none' }}
+            >
+              Browse Bikes Near You
+            </Button>
+          </ThemeProvider>
+          <ThemeProvider theme={buttonTheme2}>
+            <Button
+              variant="outlined"
+              sx={{
+                textTransform: 'none',
+                borderWidth: '1px',
+                borderRadius: '4px',
+                borderColor: '#46949d',
+              }}
+            >
+              Become a Rentor
+            </Button>
+          </ThemeProvider>
+        </Box>
 
-                                </Box>
-                               </Paper>
-                               
-                                
-                                
-                            </Box>
-                        ))}
-                        
-                        
-                    </Box>
-                </Box>
-                
-            </Box>
-            <Box id="safety" display='flex' flexDirection='column' width='100%' minHeight='40vh' my={2} mx='auto'>
-                <Box display='flex' flexDirection='column' width='45%' mx='auto'justifyContent='center' alignItems='center' sx={{borderRadius:'6px'}} mb={1} p={5} my={2}>
-                    <Box display='flex' flexDirection='column' width='80%' mx='auto'>
-                        <Typography variant="h5"component='h5' fontWeight='bold' fontSize='25px' textAlign='center'>
-                            Trust & Safety First
-                        </Typography>
-                        <Typography variant="body2"sx={{opacity:'70%'}} textAlign='center' fontSize='15px'>
-                            We prioritize your safety with comprehensive verification and protection systems
-                        </Typography>
-                        
-                    </Box>
-                    <Box display='flex'width='100%' mx='auto' mt={2} gap={2}justifyContent='center'>
-                        {safetyTips.map((tip)=>(
-                            <Box display='flex' flexDirection='column' alignItems='center' width='220px' bgcolor='white' gap={1} justifyContent='center' p={2}>
-                                <Box display='flex' flexDirection='column' height='40px'>
-                                <Avatar sx={{bgcolor:'#e8ebed'}}>
-                                    <tip.icon  sx={{color:'#467a54'}}/>
-                                </Avatar>
-                                </Box>
-                                <Typography variant="h3" fontSize='14px'>
-                                    {tip.name}
-                                </Typography>
-                                <Typography variant="body2"sx={{opacity:'70%'}} textAlign='center' fontSize='12px'>
-                                    {tip.description}                      
-                                </Typography>
-                            </Box>
-                        ))}
-                        
-                        
-                    </Box>
-                </Box>
-                
-            </Box>
-            <Box id="pricing" display='flex' flexDirection='column' width='100%' minHeight='50vh' my={3} mx='auto' sx={{backgroundColor:'#fbfcfd'}} >
-                <Box display='flex' flexDirection='column' width='45%' mx='auto' justifyContent='center' alignItems='center' sx={{borderRadius:'6px'}} mb={1} p={5} my={2}>
-                    <Box display='flex' flexDirection='column' width='80%' mx='auto'>
-                        <Typography variant="h5"component='h5' fontWeight='bold' fontSize='25px' textAlign='center'>
-                            Transparent Pricing
-                        </Typography>
-                        <Typography variant="body2"sx={{opacity:'70%'}} textAlign='center' fontSize='15px'>
-                                No hidden fees, just simple and fair pricing
-                        </Typography>
-                        
-                    </Box>
-                    <Box display='flex'width='100%' mx='auto' mt={2} gap={2} alignItems='center' justifyContent='center' >
-                        {pricingPlans.map((plan)=>(
-                        
-                            <Box display='flex' flexDirection='column' width='340px' gap={1} >
-                               <Paper elevation={5}>
-                                <Box display='flex' flexDirection='column' width='340px' bgcolor='white' height='300px' gap={2}  p={5} borderRadius='10px'>
-                                    
-                                <Typography variant="body1" fontSize='18px' fontWeight='bold' textAlign='center'>
-                                    {plan.user}
-                                </Typography>
-                                <Typography variant="body1" fontSize='18px' mt={"-15px"}fontWeight='bold' textAlign='center'>
-                                    {plan.amount}
-                                </Typography>
-                                <Typography variant="body2"sx={{opacity:'70%'}} mt={"-20px"} textAlign='center' fontSize='15px' mb={1}>
-                                    {plan.rate}
-                                </Typography>
-                                
-                                <Box display='flex' flexDirection='column'>
-                                    {plan.attributes.map((attribute)=>(
-                                        <Typography variant="body1" fontSize={16} >
-                                            <CheckCircleOutlinedIcon  sx={{color:'green', mr:2}}/>
-                                            {attribute}
-                                        </Typography>
-                                    ))}
-                                    
-
-                                </Box>
-
-                                <Box display='flex' justifyContent='center'>
-                                    <ThemeProvider theme={plan.themecolor}>
-                                        <Button variant="contained" color="primary">{plan.buttonText} </Button> 
-
-                                    </ThemeProvider>
-                                </Box>
-                                </Box>
-                               </Paper>
-                               
-                                
-                                
-                            </Box>
-                        ))}
-                        
-                        
-                    </Box>
-                </Box>
-                
-            </Box>
-            <Box display='flex' flexDirection='column' width='100%' minHeight='30vh' my={2} mx='auto' >
-                <Box display='flex' flexDirection='column' width='55%' mx='auto'justifyContent='center' alignItems='center' sx={{borderRadius:'6px'}} mb={1} p={5} my={2}>
-                    <Box display='flex' flexDirection='column' width='80%' mx='auto'>
-                        <Typography variant="h5"component='h5' fontWeight='bold' fontSize='25px' textAlign='center'>
-                            Ready to Start Your Journey?
-                        </Typography>
-                        <Typography variant="body2"sx={{opacity:'50%'}} textAlign='center' fontSize='15px'>
-                                Join our community of cyclists and start experiencing the freedom of 
-                        </Typography>
-                        <Typography variant="body2"sx={{opacity:'50%'}} textAlign='center' fontSize='15px'>
-                                bike sharing today
-                        </Typography>
-                        
-                    </Box>
-                    <Box display='flex'width='100%' mx='auto' mt={2} gap={2}justifyContent='center'>
-                         <ThemeProvider theme={theme}>
-
-                                <Button variant='contained' color='primary'sx={{ textTransform: 'none' }}> Browse Bikes Near You </Button>
-                                </ThemeProvider>
-                                <ThemeProvider theme={buttonTheme2}>
-
-                                <Button variant='outlined'sx={{ textTransform: 'none', borderStyle: 'solid',borderWidth:'1px', borderRadius:"3px", borderColor:"#46949d" }}> Become a Rentor  </Button>
-                                </ThemeProvider>
-                        
-                        
-                    </Box>
-                    <Box display='flex' width='100%' mx='auto' gap={2} mt={4} justifyContent='center'>
-                        <Grid display='flex'gap={1} sx={{opacity:'55%'}}>
-                            <GroupOutlinedIcon />
-                            <Typography variant="subtitle1">
-                                10,000+ Users
-                            </Typography>
-                        </Grid>
-                        
-                        <Grid display='flex'gap={1}sx={{opacity:'55%'}}>
-                            <PedalBikeOutlinedIcon />
-                            <Typography variant="subtitle1">
-                                5,000+ Bikes
-                            </Typography>
-                        </Grid>
-                        <Grid display='flex'gap={1}sx={{opacity:'55%'}}>
-                            <StarOutlineOutlinedIcon />
-                            <Typography variant="subtitle1">
-                                4.9/5 Rating
-                            </Typography>
-                        </Grid>
-                    </Box>
-                </Box>
-                
-            </Box>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="center"
+          alignItems="center"
+          mt={4}
+          sx={{ opacity: 0.55 }}
+        >
+          <Grid item display="flex" alignItems="center" gap={1}>
+            <GroupOutlinedIcon />
+            <Typography variant="subtitle1">10,000+ Users</Typography>
+          </Grid>
+          <Grid item display="flex" alignItems="center" gap={1}>
+            <PedalBikeOutlinedIcon />
+            <Typography variant="subtitle1">5,000+ Bikes</Typography>
+          </Grid>
+          <Grid item display="flex" alignItems="center" gap={1}>
+            <StarOutlineOutlinedIcon />
+            <Typography variant="subtitle1">4.9/5 Rating</Typography>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
         
         </>
     )

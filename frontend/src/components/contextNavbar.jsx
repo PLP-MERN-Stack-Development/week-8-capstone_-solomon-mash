@@ -1,34 +1,33 @@
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
-import { DirectionsBikeOutlined, Menu } from '@mui/icons-material';
+import { ArrowBackOutlined, DirectionsBikeOutlined, Menu } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-const theme = createTheme({
+const buttonTheme1 = createTheme({
   palette: {
     primary: {
-      main: '#efb506',
-      contrastText: '#000000',
+      main: '#1c3b4a', // dark black bgcolor
+      contrastText: '#e5ebe5',
     },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
-          backgroundColor: '#efb506',
-          color: '#000000',
+          backgroundColor: '#1c3b4a',
+          color: '#e5ebe5',
           '&:hover': {
-            backgroundColor: lighten('#efb506', 0.1),
+            backgroundColor: lighten('#1c3b4a', 0.1), // lighten by 10%
           },
         },
       },
     },
   },
 });
-
-const Navbar = () => {
+const ContextNavbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -71,13 +70,24 @@ const scrollTo = (id) => {
           flexWrap: 'wrap',
         }}
       >
+        <Box display='flex' sx={{width:'50%'}} gap={1} alignItems='center'>
+            {/* Back To Home */}
+        <Grid display="flex" gap={1} alignItems="center"onClick={()=>navigate('/')} sx={{cursor:'pointer'}} >
+          <ArrowBackOutlined sx={{ height: '15px', width: '15px' }} />
+          <Typography variant="subtitle2" fontSize={11}>
+            Back to Home
+          </Typography>
+        </Grid>
+        <Typography variant='h6'>|</Typography>
         {/* Logo */}
         <Grid display="flex" gap={1} alignItems="center">
-          <DirectionsBikeOutlined sx={{ height: '40px', width: '40px' }} />
-          <Typography variant="subtitle2" fontSize={20}>
+          <DirectionsBikeOutlined sx={{ height: '16px', width: '16px' }} />
+          <Typography variant="subtitle2" fontSize={14} fontWeight='bold'>
             Bikely
           </Typography>
         </Grid>
+        </Box>
+         
 
         {/* Hamburger menu icon for small screens */}
         <Box sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -97,33 +107,12 @@ const scrollTo = (id) => {
             width: { xs: '100%', md: 'auto' },
           }}
         >
-          <Typography
-            variant="body2"
-            onClick={() => scrollTo('how-it-works')}
-            sx={{ cursor: 'pointer' }}
-          >
-            How it works
-          </Typography>
-          <Typography
-            variant="body2"
-            onClick={() => scrollTo('safety')}
-            sx={{ cursor: 'pointer' }}
-          >
-            Safety
-          </Typography>
-          <Typography
-            variant="body2"
-            onClick={() => scrollTo('pricing')}
-            sx={{ cursor: 'pointer' }}
-          >
-            Pricing
-          </Typography>
 
           <Button variant="outlined" sx={{ textTransform: 'none' }} onClick={() => navigate('/login')}>
             Login
           </Button>
 
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={buttonTheme1}>
             <Button variant="contained" color="primary" sx={{ textTransform: 'none' }}>
               Sign Up
             </Button>
@@ -135,4 +124,4 @@ const scrollTo = (id) => {
   );
 };
 
-export default Navbar;
+export default ContextNavbar;
