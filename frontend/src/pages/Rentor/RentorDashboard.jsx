@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import Footer from "../../components/footer";
+import { CalculateEarningsModal } from "../../components/CalculateEarningsModal";
 
 const buttonTheme1 = createTheme({
   palette: {
@@ -56,6 +57,20 @@ const theme = createTheme({
 });
 
 const BecomeRentor = () => {
+
+  const scrollTo = (id) => {
+  const section = document.getElementById(id);
+  const navbar = document.getElementById('navbar'); // Add this ID to your navbar
+
+  if (section && navbar) {
+    const navbarHeight = navbar.offsetHeight;
+    const y = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+};
+
   const benefits = [
     {
       icon: <AttachMoneyOutlinedIcon />,
@@ -126,13 +141,16 @@ const BecomeRentor = () => {
           </Typography>
           <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} justifyContent="center" gap={2} mb={6}>
             <ThemeProvider theme={buttonTheme1}>
-            <Button size="large" variant="contained">Start Earning Today</Button>
+            <Button size="large" sx={{textTransform:'none'}} variant="contained" onClick={()=>scrollTo('Get-Started-in-Minutes')}>Start Earning Today</Button>
 
             </ThemeProvider>
-            <ThemeProvider theme={theme}>
-            <Button size="large" variant="contained" color='primary'>Calculate Earnings</Button>
+            <CalculateEarningsModal>
+              <ThemeProvider theme={theme}>
+            <Button size="large" sx={{textTransform:'none'}} variant="contained" color='primary'>Calculate Earnings</Button>
 
             </ThemeProvider>
+            </CalculateEarningsModal>
+            
           </Box>
           <Grid container spacing={4} justifyContent="center">
             <Grid item>
@@ -230,7 +248,7 @@ const BecomeRentor = () => {
         </Grid>
       </Container>
 
-            <Box sx={{ bgcolor: "#f5f7f8", py: 8 }}>
+      <Box id="Get-Started-in-Minutes" sx={{ bgcolor: "#f5f7f8", py: 8 }}>
       <Container maxWidth="sm">
         <Card sx={{ borderRadius: 3 }}>
           <CardHeader

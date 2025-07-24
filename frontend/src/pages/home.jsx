@@ -209,9 +209,9 @@ const HomePage = ()=>{
     return (
 
         <>
-        <Box sx={{ width: '90%', mx: 'auto', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ width: { xs: '100%', md: '70%' }, mx: 'auto' }}>
-        <Box id="hero" sx={{ display: 'flex', flexDirection: 'column', width: { xs: '100%', md: '80%' }, my: 9, mx: 'auto' }}>
+        <Box sx={{width: '90%', mx: 'auto', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{width: { xs: '100%', md: '70%' }, mx: 'auto' }}>
+        <Box id="hero" sx={{ display: 'flex', flexDirection: 'column', width: { xs: '100%', md: '80%' }, my: 9, mx: 'auto'}}>
           <Typography
             variant="h3"
             component="h3"
@@ -288,9 +288,10 @@ const HomePage = ()=>{
                                             )}}} />
                 <ThemeProvider theme={theme}>
                   <Button
+                  size="small"
                     variant="contained"
                     startIcon={<SearchRoundedIcon />}
-                    sx={{ textTransform: 'none', width: { xs: '100%', sm: 'auto' } }}
+                    sx={{ textTransform: 'none', width: { xs: '100%', sm: '120px' } }}
                   >
                     Find Bikes
                   </Button>
@@ -311,6 +312,8 @@ const HomePage = ()=>{
                       minWidth: '150px',
                       height: '36px',
                     }}
+
+                    onClick={()=>navigate('/browse-bikes')}
                   >
                     Browse Bikes Near You
                   </Button>
@@ -343,7 +346,7 @@ const HomePage = ()=>{
       sx={{
         width: '100%',
         minHeight: '50vh',
-        my: 9,
+        my: 1,
         mx: 'auto',
         backgroundColor: '#fbfcfd',
         display: 'flex',

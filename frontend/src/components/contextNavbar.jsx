@@ -31,20 +31,6 @@ const ContextNavbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-const scrollTo = (id) => {
-  const section = document.getElementById(id);
-  const navbar = document.getElementById('navbar'); // Add this ID to your navbar
-
-  if (section && navbar) {
-    const navbarHeight = navbar.offsetHeight;
-    const y = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }
-
-  setMenuOpen(false);
-};
-
 
   return (
     <Box
