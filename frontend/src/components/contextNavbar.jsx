@@ -5,6 +5,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import useAuth from '../context/UseAuth';
+
 
 const buttonTheme1 = createTheme({
   palette: {
@@ -30,6 +32,7 @@ const buttonTheme1 = createTheme({
 const ContextNavbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useAuth();
 
 
   return (
@@ -94,15 +97,28 @@ const ContextNavbar = () => {
           }}
         >
 
-          <Button variant="outlined" sx={{ textTransform: 'none' }} onClick={() => navigate('/login')}>
-            Login
-          </Button>
-
-          <ThemeProvider theme={buttonTheme1}>
-            <Button variant="contained" color="primary" sx={{ textTransform: 'none' }}>
-              Sign Up
-            </Button>
-          </ThemeProvider>
+          {/* if authenticated */}
+                    {user? (
+                      <>
+                      <Button variant="outlined" sx={{ textTransform: 'none' }}>
+                      Logout
+                    </Button>
+                      </>
+                    ): (
+                      <>
+                      <Button variant="outlined" sx={{ textTransform: 'none' }} onClick={() => navigate('/login')}>
+                      Login
+                    </Button>
+          
+                    <ThemeProvider theme={buttonTheme1}>
+                      <Button variant="contained" color="primary" sx={{ textTransform: 'none' }}>
+                        Sign Up
+                      </Button>
+                    </ThemeProvider>
+                      </>
+          
+                    )
+                     }
         </Box>
       </Box>
       <Divider sx={{ my: 1 }} />

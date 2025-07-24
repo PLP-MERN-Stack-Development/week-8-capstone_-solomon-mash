@@ -10,6 +10,10 @@ import { lighten } from '@mui/system';
 import { useNavigate } from "react-router-dom";
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import {useState} from 'react';
+import axios from "axios";
+import useAuth from '../context/UseAuth';
+
 
 
 const buttonTheme1 = createTheme({
@@ -82,7 +86,53 @@ const socialButtonTheme = createTheme({
 });
 
 const Register = () => {
+  const { login }=useAuth();
   const navigate = useNavigate();
+  const [role, setRole]=useState('');
+  const [first_name, setFirstName]=useState('');
+  const [last_name, setLastName]=useState('');
+  const [email, setEmail]=useState('');
+  const [phone, setPhoneNumber]=useState('');
+  const [password, setPassword]=useState('');
+  const [confirmPassword, setConfirmPassword]=useState('');
+
+  const clearFields=()=>{
+    setRole('');
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPhoneNumber('');
+    setPassword('');
+    setConfirmPassword('');
+  }
+  const handleRegister= async(e)=>{
+    e.preventDefault();
+    if(first_name=='' || last_name==''||email==''||phone==''||password==''||confirmPassword==''){
+      alert('This fields are required');
+    }
+    try{
+        const response = await axios.post('http://localhost:5000/api/auth/register', {first_name, last_name,email,phone,role,password});
+        if(response.status=='201'){
+          login(response.data.user, response.data.token);
+          alert('User registered sucessfully');
+          clearFields();
+          navigate('/');
+
+        }else if(response.status=='400'){
+          alert('User with ',email,'already exists');
+        }
+        
+        else{
+          alert('Something happened. Please try again later')
+        }
+
+      }
+        catch (error) {
+          alert('Something happened. Please try again later',error);
+        }
+      
+
+  }
   
   return (
        <Box
@@ -132,9 +182,14 @@ const Register = () => {
                   <ThemeProvider theme={optionButtonTheme}>
                     <Button variant="outlined" fullWidth sx={{
                   minWidth:'150px',
-                  textTransform:'none'
-                  }}>
-                    <Box display="flex" flexDirection="column" alignItems="center">
+                  textTransform:'none',
+                  bgcolor: role === 'client' ? '#f3f5f6' : 'transparent', // highlight selected
+    borderColor: role === 'client' ? '#000000' : 'default',
+    '&:hover': {
+      bgcolor: role === 'client' ? 'l#f3f5f6' : 'action.hover',
+                  }}}
+                  onClick={()=>setRole('client')}>
+                    <Box display="flex" flexDirection="column" alignItems="center" >
                       <DirectionsBikeOutlined />
                       <Typography variant="body1">Rent Bikes</Typography>
                       <Typography variant="caption" sx={{ opacity: "85%" }}>
@@ -151,12 +206,17 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <ThemeProvider theme={optionButtonTheme}>
                     <Button variant="outlined"
-                    
+                      onClick={()=>setRole('rentor')}
                     sx={{
               minWidth:'150px',
-              textTransform:'none'
+              textTransform:'none',
+              bgcolor: role === 'rentor' ? '#f3f5f6' : 'transparent', // highlight selected
+    borderColor: role === 'rentor' ? '#000000' : 'default',
+    '&:hover': {
+      bgcolor: role === 'rentor' ? 'l#f3f5f6' : 'action.hover',
+                  }}}
 
-            }}fullWidth>
+            fullWidth>
                     <Box display="flex" flexDirection="column" alignItems="center">
                       <DirectionsBikeOutlined />
                       <Typography variant="body1">List Bikes</Typography>
@@ -179,6 +239,9 @@ const Register = () => {
                     First Name
                   </Typography>
                   <TextField
+                  value={first_name}
+                  onChange={(e)=>setFirstName(e.target.value)}
+                  required
                     fullWidth
                     variant="outlined"
                     size="small"
@@ -198,6 +261,9 @@ const Register = () => {
                     Last Name
                   </Typography>
                   <TextField
+                  onChange={(e)=>setLastName(e.target.value)}
+                    value={last_name}
+                  required
                     fullWidth
                     variant="outlined"
                     size="small"
@@ -211,6 +277,9 @@ const Register = () => {
                   Email
                 </Typography>
                 <TextField
+                onChange={(e)=>setEmail(e.target.value)}
+                    value={email}
+                required
                   fullWidth
                   variant="outlined"
                   size="small"
@@ -230,6 +299,9 @@ const Register = () => {
                   Phone Number
                 </Typography>
                 <TextField
+                  onChange={(e)=>setPhoneNumber(e.target.value)}
+                    value={phone}
+                required
                   fullWidth
                   variant="outlined"
                   size="small"
@@ -249,6 +321,9 @@ const Register = () => {
                   Password
                 </Typography>
                 <TextField
+                  onChange={(e)=>setPassword(e.target.value)}
+                value={password}
+                required
                   fullWidth
                   variant="outlined"
                   size="small"
@@ -269,6 +344,9 @@ const Register = () => {
                   Confirm Password
                 </Typography>
                 <TextField
+                onChange={(e)=>setConfirmPassword(e.target.value)}
+                  value={confirmPassword}
+                required
                   fullWidth
                   variant="outlined"
                   size="small"
@@ -313,6 +391,7 @@ const Register = () => {
                   color="primary"
                   fullWidth
                   sx={{ textTransform: "none", mb: 2 }}
+                  onClick={handleRegister}
                 >
                   Create Account
                 </Button>

@@ -9,6 +9,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import useAuth from "../context/UseAuth";
+import axios from "axios";
+import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import toast from "react-hot-toast";
 
 const buttonTheme1 = createTheme({
   palette: {
@@ -58,7 +63,32 @@ const Login = () => {
   const navigate = useNavigate();
   const muiTheme = useTheme();
   const isSmall = useMediaQuery(muiTheme.breakpoints.down('sm'));
+  const {login} =useAuth();
+  const [password, setPassword]=useState('');
+  const [email, setEmail]=useState('');
 
+
+  const handleLogin=async (e)=>{
+    e.preventDefault();
+
+    try{
+      const res = await axios.post('http://localhost:5000/api/auth/login',{email, password});
+      const token = res.data.token;
+      const decoded = jwtDecode(token);
+      const user={
+        id: decoded.id,
+        first_name:decoded.first_name,
+        role:decoded.role,
+      }
+      console.log(user);
+      login(user,token);
+
+      toast.success('Login Successful!');
+      navigate('/');
+    }catch(error){
+      alert("Login Failed", error);
+    }
+  }
   return (
     <Box
       display="flex"
@@ -96,6 +126,8 @@ const Login = () => {
             <Box width="100%" mb={2}>
               <Typography variant="caption" fontWeight="bold">Email</Typography>
               <TextField
+                onChange={(e)=>setEmail(e.target.value)}
+
                 fullWidth
                 variant="outlined"
                 placeholder="Enter your Email"
@@ -111,6 +143,7 @@ const Login = () => {
 
               <Typography variant="caption" fontWeight="bold">Password</Typography>
               <TextField
+              onChange={(e)=>setPassword(e.target.value)}
                 fullWidth
                 variant="outlined"
                 placeholder="Enter your password"
@@ -137,6 +170,7 @@ const Login = () => {
 
               <ThemeProvider theme={buttonTheme1}>
                 <Button
+                onClick={handleLogin}
                   variant="contained"
                   color="primary"
                   fullWidth

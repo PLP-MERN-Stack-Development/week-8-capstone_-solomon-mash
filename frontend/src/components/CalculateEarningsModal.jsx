@@ -55,7 +55,6 @@ export const CalculateEarningsModal = ({ children }) => {
 
   const calculateEarnings = () => {
     const rate = parseFloat(dailyRate) || 0;
-    const days = parseFloat(availableDays) || 0;
     const conditionMultiplier = condition === "Excellent" ? 1 : condition === "Good" ? 0.9 : 0.8;
 
     const daily = rate * conditionMultiplier;
