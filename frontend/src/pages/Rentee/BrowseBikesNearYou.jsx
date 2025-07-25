@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, TextField, MenuItem, Slider, Button, Card, CardContent,
   CardActions, Chip, Grid, IconButton, InputAdornment, Badge, Select
@@ -8,7 +8,7 @@ import ContextNavbar from "../../components/contextNavbar";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system'
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 
 
 const buttonTheme1 = createTheme({
@@ -32,43 +32,28 @@ const buttonTheme1 = createTheme({
     },
   },
 });
-const bikes = [
-  {
-    title: 'City Cruiser',
-    location: 'Downtown Campus',
-    distance: '0.2 miles',
-    owner: 'Sarah M.',
-    price: '$8/day',
-    rating: 4.8,
-    reviews: 42,
-    features: ['Basket', 'Lights', 'Lock included'],
-    image: 'https://intensecycles.com/cdn/shop/files/Shop-INTENSE-Cycles-951-Trail-Carbon-Mountain-Bike-for-sale_659272bb-b31f-4f96-9d7c-b8c3b2367e81.png?v=1727709912&width=1080'
-  },
-  {
-    title: 'Mountain Explorer',
-    location: 'University District',
-    distance: '0.5 miles',
-    owner: 'Mike T.',
-    price: '$15/day',
-    rating: 4.9,
-    reviews: 38,
-    features: ['21-speed', 'Suspension', 'Water bottle'],
-    image: 'https://www.jamisbikes.com/wp-content/uploads/2021/08/22_trailxa1_mash.png'
-  },
-  {
-    title: 'Electric Commuter',
-    location: 'Tech Quarter',
-    distance: '0.8 miles',
-    owner: 'Alex K.',
-    price: '$22/day',
-    rating: 4.7,
-    reviews: 29,
-    features: ['Electric assist', 'Phone holder', 'Fast charging'],
-    image: 'https://i5.walmartimages.com/asr/d885e90f-d5fa-4c8d-b79a-801ed6ae5bb2.38883fa729039ce5aaf1ffd4395718b7.jpeg'
-  },
-];
 
 const BrowseBikes = () => {
+  const [bikeData, setBikeData]=useState([]);
+    const [loading, setLoading] = useState(true);
+  
+
+
+    const fetchBikeData = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/bikes');
+      setBikeData(res.data);
+    } catch (err) {
+      console.error('Failed to fetch bikes:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBikeData();
+  }, []);
+
   const navigate = useNavigate();
   return (
     <>
@@ -147,8 +132,8 @@ const BrowseBikes = () => {
         </Box>
 
         {/* Bike Cards */}
-        <Grid container spacing={3}display='flex' justifyContent='center'>
-          {bikes.map((bike, index) => (
+        <Grid container spacing={3}display='flex'sx={{maxWidth: '80%', mx:'auto'}}>
+          {bikeData.map((bike, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card
                 variant="outlined"
@@ -164,31 +149,31 @@ const BrowseBikes = () => {
                 <Box position="relative">
                   <Box
                     component="img"
-                    src={bike.image}
-                    alt={bike.title}
+                    src={Object.values(bike.bikeImages)[0]}
+                    alt={bike.name}
                     sx={{ width: '100%', height: 120, objectFit: 'contain', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
                   />
                   <Box
                     position="absolute"
                     top={10}
                     right={10}
-                    bgcolor="primary.main"
+                    bgcolor='#1c3b4a'
                     color="white"
                     px={1.5}
                     py={0.5}
                     borderRadius={1}
                     fontSize={12}
                   >
-                    {bike.price}
+                    Kes {bike.rentPricePerDay}
                   </Box>
                 </Box>
 
                 <CardContent>
                   <Typography variant="subtitle2" color="text.secondary">
-                    {bike.title}
+                    {bike.name}
                   </Typography>
                   <Typography fontWeight="bold" fontSize="1.1rem">
-                    {bike.title}
+                    {bike.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" mt={0.5}>
                     {bike.location} • {bike.distance}
@@ -198,10 +183,10 @@ const BrowseBikes = () => {
                   </Typography>
                   <Box display="flex" alignItems="center" mt={1}>
                     <Star sx={{ fontSize: 18, color: 'gold' }} />
-                    <Typography ml={0.5}>{bike.rating} ({bike.reviews})</Typography>
+                    <Typography ml={0.5}>{4.2}</Typography>
                   </Box>
                   <Box mt={1} display="flex" gap={1} flexWrap="wrap">
-                    {bike.features.map((feature, idx) => (
+                    {bike.tags.map((feature, idx) => (
                       <Chip
                         key={idx}
                         label={feature}
@@ -212,7 +197,7 @@ const BrowseBikes = () => {
                     ))}
                   </Box>
                   <ThemeProvider theme={buttonTheme1}>
-<Button variant="contained" fullWidth size="small" color='primary' onClick={()=>navigate('/book-now')} sx={{ textTransform: 'none', mt:1 }}>
+<Button variant="contained" fullWidth size="small" color='primary' onClick={()=>navigate(`/book-now/${bike._id}`)} sx={{ textTransform: 'none', mt:1 }}>
                     Book Now
                   </Button>
                   </ThemeProvider>

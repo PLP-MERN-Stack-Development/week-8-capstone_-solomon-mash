@@ -79,6 +79,7 @@ const Login = () => {
         id: decoded.id,
         first_name:decoded.first_name,
         role:decoded.role,
+        last_name:decoded.last_name
       }
       console.log(user);
       login(user,token);

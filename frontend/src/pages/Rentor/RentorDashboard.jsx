@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box, Button, Container, Typography, Grid, Card, CardContent, CardHeader, TextField,
   Avatar, IconButton
@@ -11,6 +11,7 @@ import { lighten } from '@mui/system'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import Footer from "../../components/footer";
 import { CalculateEarningsModal } from "../../components/CalculateEarningsModal";
+import useAuth from "../../context/UseAuth";
 
 const buttonTheme1 = createTheme({
   palette: {
@@ -57,6 +58,9 @@ const theme = createTheme({
 });
 
 const BecomeRentor = () => {
+  const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   const scrollTo = (id) => {
   const section = document.getElementById(id);
@@ -140,8 +144,14 @@ const BecomeRentor = () => {
             Join thousands of bike owners earning extra income by sharing their bikes with students and commuters in their community.
           </Typography>
           <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} justifyContent="center" gap={2} mb={6}>
-            <ThemeProvider theme={buttonTheme1}>
+            {user?.role!='rentor'&&(
+              <ThemeProvider theme={buttonTheme1}>
             <Button size="large" sx={{textTransform:'none'}} variant="contained" onClick={()=>scrollTo('Get-Started-in-Minutes')}>Start Earning Today</Button>
+
+            </ThemeProvider>
+            )}
+            <ThemeProvider theme={buttonTheme1}>
+            <Button size="large" sx={{textTransform:'none'}} variant="contained" onClick={()=>navigate('/upload-bike')}>Start Earning Today</Button>
 
             </ThemeProvider>
             <CalculateEarningsModal>
@@ -247,105 +257,56 @@ const BecomeRentor = () => {
           ))}
         </Grid>
       </Container>
+{user?.role !== 'rentor' && (
+  <Box id="Get-Started-in-Minutes" sx={{ bgcolor: "#f5f7f8", py: 8 }}>
+    <Container maxWidth="sm">
+      <Card sx={{ borderRadius: 3 }}>
+        <CardHeader
+          title="Get Started in Minutes"
+          subheader="Fill out this quick form and we’ll help you list your first bike"
+          titleTypographyProps={{
+            align: "center",
+            fontWeight: "bold",
+            variant: "h6",
+          }}
+          subheaderTypographyProps={{
+            align: "center",
+            variant: "body2",
+            color: "text.secondary",
+          }}
+        />
+        <CardContent>
+          <Box display="flex" flexDirection="column" gap={2}>
+            <Box display="flex" gap={2} flexDirection={{ xs: 'column', sm: 'row' }}>
+              <TextField fullWidth label="First Name" placeholder="Enter your first name" variant="outlined" />
+              <TextField fullWidth label="Last Name" placeholder="Enter your last name" variant="outlined" />
+            </Box>
 
-      <Box id="Get-Started-in-Minutes" sx={{ bgcolor: "#f5f7f8", py: 8 }}>
-      <Container maxWidth="sm">
-        <Card sx={{ borderRadius: 3 }}>
-          <CardHeader
-            title="Get Started in Minutes"
-            subheader="Fill out this quick form and we’ll help you list your first bike"
-            titleTypographyProps={{
-              align: "center",
-              fontWeight: "bold",
-              variant: "h6",
-            }}
-            subheaderTypographyProps={{
-              align: "center",
-              variant: "body2",
-              color: "text.secondary",
-            }}
-          />
-          <CardContent>
-            <Box display="flex" flexDirection="column" gap={2}>
-              <Box display="flex" gap={2} flexDirection={{ xs: 'column', sm: 'row' }}>
-                <TextField
-                  fullWidth
-                  label="First Name"
-                  placeholder="Enter your first name"
-                  variant="outlined"
-                />
-                <TextField
-                  fullWidth
-                  label="Last Name"
-                  placeholder="Enter your last name"
-                  variant="outlined"
-                />
-              </Box>
+            <TextField fullWidth label="Email Address" placeholder="Enter your email" variant="outlined" type="email" />
+            <TextField fullWidth label="Location" placeholder="City, State or University" variant="outlined" />
+            <TextField fullWidth label="What type of bike do you have?" placeholder="e.g., City bike, Mountain bike, Electric bike" variant="outlined" />
+            <TextField fullWidth multiline rows={4} label="Why do you want to rent out your bike?" placeholder="Tell us about your motivation..." variant="outlined" />
 
-              <TextField
-                fullWidth
-                label="Email Address"
-                placeholder="Enter your email"
-                variant="outlined"
-                type="email"
-              />
-
-              <TextField
-                fullWidth
-                label="Location"
-                placeholder="City, State or University"
-                variant="outlined"
-              />
-
-              <TextField
-                fullWidth
-                label="What type of bike do you have?"
-                placeholder="e.g., City bike, Mountain bike, Electric bike"
-                variant="outlined"
-              />
-
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                label="Why do you want to rent out your bike?"
-                placeholder="Tell us about your motivation..."
-                variant="outlined"
-              />
-    <ThemeProvider theme={buttonTheme1}>
-            <Button
-                fullWidth
-                variant="contained"
-                size="large"
-                startIcon={<CameraAltOutlinedIcon />}
-                sx={{ textTransform: "none", fontWeight: 600 }}
-              >
+            <ThemeProvider theme={buttonTheme1}>
+              <Button fullWidth variant="contained" size="large" startIcon={<CameraAltOutlinedIcon />} sx={{ textTransform: "none", fontWeight: 600 }}>
                 Continue & Upload Photos
               </Button>
-    </ThemeProvider>
-              
+            </ThemeProvider>
 
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                align="center"
-              >
-                By continuing, you agree to our{" "}
-                <a href="/terms" style={{ color: "inherit" }}>
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a href="/privacy" style={{ color: "inherit" }}>
-                  Privacy Policy
-                </a>
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      </Container>
-    </Box>
+            <Typography variant="caption" color="text.secondary" align="center">
+              By continuing, you agree to our{" "}
+              <a href="/terms" style={{ color: "inherit" }}>Terms of Service</a> and{" "}
+              <a href="/privacy" style={{ color: "inherit" }}>Privacy Policy</a>
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    </Container>
+  </Box>
+)}
+
       {/* Safety Section */}
-      <Container maxWidth="lg" sx={{ py: 10 }}>
+      <Container maxWidth="lg" sx={{ py: 10,bgcolor: user?.role=='rentor'?"#f5f7f8":'#fafafa' }} >
         <Typography variant="h4" align="center" fontWeight={600} mb={1}>
           Your Safety & Security
         </Typography>

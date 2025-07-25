@@ -33,7 +33,12 @@ const Navbar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const {logout} = useAuth();
 
+  const handleLogout = ()=>{
+    logout();
+    navigate('/');
+  }
 const scrollTo = (id) => {
   const section = document.getElementById(id);
   const navbar = document.getElementById('navbar'); // Add this ID to your navbar
@@ -123,7 +128,7 @@ const scrollTo = (id) => {
           {/* if authenticated */}
           {user? (
             <>
-            <Button variant="outlined" sx={{ textTransform: 'none' }}>
+            <Button variant="outlined" sx={{ textTransform: 'none' }} onClick={handleLogout}>
             Logout
           </Button>
             </>

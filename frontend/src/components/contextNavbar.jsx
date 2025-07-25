@@ -33,6 +33,13 @@ const ContextNavbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
+  const {logout} = useAuth();
+  
+
+   const handleLogout = ()=>{
+    logout();
+    navigate('/');
+  }
 
 
   return (
@@ -100,9 +107,9 @@ const ContextNavbar = () => {
           {/* if authenticated */}
                     {user? (
                       <>
-                      <Button variant="outlined" sx={{ textTransform: 'none' }}>
-                      Logout
-                    </Button>
+                      <Button variant="outlined" sx={{ textTransform: 'none' }} onClick={handleLogout}>
+            Logout
+          </Button>
                       </>
                     ): (
                       <>

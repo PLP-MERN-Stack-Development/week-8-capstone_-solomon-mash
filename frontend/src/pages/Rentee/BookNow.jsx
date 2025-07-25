@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -25,7 +25,7 @@ import {
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system'
-
+import axios from "axios";
 
 
 const buttonTheme1 = createTheme({
@@ -51,32 +51,90 @@ const buttonTheme1 = createTheme({
 });
 
 const BookNow = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const bikeId = searchParams.get("id") || "1";
-
-  const [rentalDuration, setRentalDuration] = useState("");
+ const { id: bikeId } = useParams();
+  const [rentalDuration, setRentalDuration] = useState(1);
+  const [bikeInfo, setBikeInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [pickupTime, setPickupTime] = useState("");
-  const [returnTime, setReturnTime] = useState("");
+  const [returnTime, setReturnTime] = useState("")
+  const [first_name, setFirstName]=useState("");
+  const [last_name, setLastName]=useState("");
+  const [phone_number, setPhoneNumber]=useState("");
+  const [email, setEmail]=useState("");
+  const [card_number, setCardNumber]=useState("");
+  const [expiry_date, setExpiryDate]=useState("");
+  const [cvv, setCvv]=useState("");
 
-  const bike = {
-    id: bikeId,
-    name: "Trek Mountain Bike",
-    type: "Mountain Bike",
-    owner: "Sarah Chen",
-    rating: 4.9,
-    reviews: 127,
-    location: "Campus Center, University Ave",
-    distance: "0.3 miles away",
-    dailyRate: 25,
-    weeklyRate: 150,
-    image: "/placeholder.svg",
-    features: ["Helmet included", "Lock included", "GPS tracker", "Insurance covered"],
-  };
+  const navigate = useNavigate();
+
+  const clearInfo=()=>{
+    setPhoneNumber(' ');
+    setCardNumber(' ');
+    setCvv(' ');
+    setExpiryDate(' ');
+    setEmail(' ');
+    setLastName(' ');
+    setFirstName(' ');
+    setReturnTime(' ');
+    setPickupTime(' ');
+  }
+
+  const handleBookingInfo=async()=>{
+    const bookingInfo = {
+      bike: bikeId,
+      rentDuration:rentalDuration,
+      pickupTime:pickupTime,
+      returnTime:returnTime,
+      firstName:first_name,
+      lastName:last_name,
+      phoneNumber:phone_number,
+      email:email,
+      cardNumber:card_number,
+      expiryDate:expiry_date,
+      cvv:cvv
+    }
+    const res = await fetch("http://localhost:5000/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookingInfo),
+    });
+
+    if (res.ok) {
+      alert("Booking Info Saved");
+      clearInfo();
+    } else {
+      const err = await res.json();
+      console.error(err);
+      alert("Failed to Book.");
+    }
+  }
+  
+
+  useEffect(() => {
+    const fetchBike = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/bikes/${bikeId}`);
+        setBikeInfo(res.data);
+      } catch (err) {
+        console.error("Error fetching bike:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBike();
+  }, [bikeId]);
+
 
   const calculateTotal = () => {
+    
     const days = parseInt(rentalDuration) || 1;
-    const rate = days >= 7 ? bike.weeklyRate / 7 : bike.dailyRate;
+    const rate =
+      days >= 7
+        ? (bikeInfo.weeklyRate || bikeInfo.rentPricePerDay * 7) / 7
+        : bikeInfo.rentPricePerDay || 0;
     const subtotal = rate * days;
     const serviceFee = subtotal * 0.1;
     return {
@@ -86,15 +144,18 @@ const BookNow = () => {
     };
   };
 
-  const { subtotal, serviceFee, total } = calculateTotal();
+if (loading) {
+    return (
+      <Container sx={{ py: 6 }}>
+        <Typography variant="h6">Loading bike details...</Typography>
+      </Container>
+    );
+  }
 
-  const rentalOptions = [
-    { label: "1 Day - $25/day", value: "1" },
-    { label: "3 Days - $25/day", value: "3" },
-    { label: "1 Week - $150/week", value: "7" },
-    { label: "2 Weeks - $280/2 weeks", value: "14" },
-    { label: "1 Month - $540/month", value: "30" },
-  ];
+  const { subtotal, serviceFee, total } = calculateTotal();
+  
+
+
 
   const timeOptions = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM"];
 
@@ -102,10 +163,10 @@ const BookNow = () => {
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider", py: 2 }}>
         <Container>
-          <Button startIcon={<ArrowBackIcon />} onClick={() => navigate("/browse-bikes")}>
+          <Button sx={{color:'black'}} startIcon={<ArrowBackIcon sx={{color:'black'}} />} onClick={() => navigate("/browse-bikes")}>
             Back to Browse
           </Button>
-          <Typography variant="h4" fontWeight={600} mt={1}>
+          <Typography variant="h4" fontWeight={600} mt={1} color="black">
             Book Your Bike
           </Typography>
           <Typography color="text.secondary">Complete your reservation</Typography>
@@ -119,20 +180,15 @@ const BookNow = () => {
             <Card>
               <CardHeader title="Rental Details" />
               <CardContent>
-                <TextField
-                  select
-                  fullWidth
-                  label="Rental Duration"
-                  value={rentalDuration}
-                  onChange={(e) => setRentalDuration(e.target.value)}
-                  sx={{ mb: 3 }}
-                >
-                  {rentalOptions.map((opt) => (
-                    <MenuItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  <TextField
+            label="Rental Duration (days)"
+            type="number"
+            
+            value={rentalDuration>0?rentalDuration:1}
+            onChange={(e) => setRentalDuration(e.target.value)}
+            fullWidth
+            sx={{ mb: 3 }}
+          />
 
                 <Grid container spacing={2}>
                   <Grid item xs={6} sx={{width:'120px'}}>
@@ -174,16 +230,16 @@ const BookNow = () => {
               <CardContent>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <TextField fullWidth label="First Name" placeholder="John" />
+                    <TextField fullWidth label="First Name" placeholder="John" onChange={(e)=>setFirstName(e.target.value)} />
                   </Grid>
                   <Grid item xs={6}>
-                    <TextField fullWidth label="Last Name" placeholder="Doe" />
+                    <TextField fullWidth label="Last Name" placeholder="Doe"onChange={(e)=>setLastName(e.target.value)} />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField fullWidth label="Phone Number" placeholder="(555) 123-4567" />
+                    <TextField fullWidth label="Phone Number" placeholder="(555) 123-4567" onChange={(e)=>setPhoneNumber(e.target.value)} />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField fullWidth type="email" label="Email" placeholder="john@example.com" />
+                    <TextField fullWidth type="email" label="Email" placeholder="john@example.com" onChange={(e)=>setEmail(e.target.value)} />
                   </Grid>
                 </Grid>
               </CardContent>
@@ -192,108 +248,105 @@ const BookNow = () => {
             <Card sx={{ mt: 3 }}>
               <CardHeader title="Payment Information" avatar={<CreditCardIcon />} />
               <CardContent>
-                <TextField fullWidth label="Card Number" placeholder="1234 5678 9012 3456" sx={{ mb: 3 }} />
+                <TextField fullWidth label="Card Number" placeholder="1234 5678 9012 3456" sx={{ mb: 3 }} onChange={(e)=>setCardNumber(e.target.value)}/>
                 <Grid container spacing={2}>
                   <Grid item xs={8}>
-                    <TextField fullWidth label="Expiry Date" placeholder="MM/YY" />
+                    <TextField fullWidth label="Expiry Date" placeholder="MM/YY" onChange={(e)=>setExpiryDate(e.target.value)} />
                   </Grid>
                   <Grid item xs={4}>
-                    <TextField fullWidth label="CVV" placeholder="123" />
+                    <TextField fullWidth label="CVV" placeholder="123" onChange={(e)=>setCvv(e.target.value)} />
                   </Grid>
                 </Grid>
               </CardContent>
             </Card>
           </Grid>
-
-          {/* Summary Panel */}
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Box display="flex" gap={2}>
-                  <img
-                    src={bike.image}
-                    alt={bike.name}
-                    style={{ width: 96, height: 96, borderRadius: 8, objectFit: "cover" }}
-                  />
-                  <Box>
-                    <Typography variant="h6">{bike.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {bike.type}
+{/* Summary Card */}
+        <Grid item sx={{minWidth:'30%'}}>
+          <Card>
+            <CardContent>
+              <Box display="flex" alignItems="center" gap={2}>
+                <img
+                  src={bikeInfo?.bikeImages?.[0]}
+                  alt={bikeInfo?.name}
+                  style={{
+                    width: 96,
+                    height: 96,
+                    borderRadius: 8,
+                    objectFit: "cover",
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6">{bikeInfo?.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {bikeInfo?.type}
+                  </Typography>
+                  <Box display="flex" alignItems="center" gap={1} mt={1}>
+                    <StarIcon fontSize="small" sx={{ color: "#facc15" }} />
+                    <Typography variant="body2" fontWeight={500}>
+                      4.8
                     </Typography>
-                    <Box display="flex" alignItems="center" gap={1} mt={1}>
-                      <StarIcon fontSize="small" sx={{ color: "#facc15" }} />
-                      <Typography variant="body2" fontWeight={500}>
-                        {bike.rating}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        ({bike.reviews} reviews)
-                      </Typography>
-                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      (123 reviews)
+                    </Typography>
                   </Box>
                 </Box>
+              </Box>
 
-                <Divider sx={{ my: 2 }} />
+              <Divider sx={{ my: 2 }} />
 
-                <Box display="flex" alignItems="center" gap={1} mb={1}>
-                  <MapIcon fontSize="small" color="action" />
-                  <Typography variant="body2">{bike.location}</Typography>
-                </Box>
-                <Box display="flex" alignItems="center" gap={1}>
-                  <AccessTimeIcon fontSize="small" color="action" />
-                  <Typography variant="body2">{bike.distance}</Typography>
-                </Box>
+              <Typography variant="body2">{bikeInfo?.location}</Typography>
+              <Typography variant="body2">{bikeInfo?.distance}</Typography>
 
-                <Divider sx={{ my: 2 }} />
-
-                <Typography variant="subtitle1" gutterBottom>
-                  Included Features
-                </Typography>
-                <Box display="flex" flexWrap="wrap" gap={1}>
-                  {bike.features.map((feature, idx) => (
-                    <Chip key={idx} label={feature} size="small" variant="outlined" />
+              {bikeInfo?.tags?.length > 0 && (
+                <Box display="flex" flexWrap="wrap" gap={1} mt={1}>
+                  {bikeInfo.tags.map((tag, idx) => (
+                    <Chip key={idx} label={tag} size="small" variant="outlined" />
                   ))}
                 </Box>
-              </CardContent>
-            </Card>
+              )}
 
-            <Card sx={{ mt: 3 }}>
-              <CardHeader title="Price Summary" />
-              <CardContent>
-                <Box display="flex" justifyContent="space-between">
-                  <Typography>Rental ({rentalDuration || "1"} day{parseInt(rentalDuration) > 1 ? "s" : ""})</Typography>
-                  <Typography>${subtotal.toFixed(2)}</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between">
-                  <Typography>Service fee</Typography>
-                  <Typography>${serviceFee.toFixed(2)}</Typography>
-                </Box>
-                <Divider sx={{ my: 2 }} />
-                <Box display="flex" justifyContent="space-between" fontWeight="fontWeightBold">
-                  <Typography>Total</Typography>
-                  <Typography>${total.toFixed(2)}</Typography>
-                </Box>
-              </CardContent>
-            </Card>
+              <Divider sx={{ my: 2 }} />
 
-            <Box display="flex" alignItems="center" mt={2} gap={1} color="text.secondary">
-              <ShieldIcon fontSize="small" />
-              <Typography variant="body2">
-                Your booking is protected by Bikely's insurance policy
-              </Typography>
-            </Box>
-            <ThemeProvider theme={buttonTheme1}>
-            <Button
-            color="primary"
-              variant="contained"
-              fullWidth
-              size="large"
-              sx={{ mt: 3, textTransform:'none' }}
-              startIcon={<CalendarIcon />}
-            >
-              Confirm Booking
-            </Button>
-            </ThemeProvider>
-            
+              <Typography variant="subtitle2">Price Breakdown</Typography>
+              <Box display="flex" justifyContent="space-between" mt={1}>
+                <Typography variant="body2">Subtotal</Typography>
+                <Typography variant="body2">Ksh {subtotal}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" mt={1}>
+                <Typography variant="body2">Service Fee</Typography>
+                <Typography variant="body2">Ksh {serviceFee}</Typography>
+              </Box>
+              <Divider sx={{ my: 1 }} />
+              <Box display="flex" justifyContent="space-between" mt={1}>
+                <Typography variant="subtitle1" fontWeight={600}>
+                  Total
+                </Typography>
+                <Typography variant="subtitle1" fontWeight={600}>
+                  Ksh {total}
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+
+          <Box display="flex" alignItems="center" mt={2} gap={1} color="text.secondary">
+                        <ShieldIcon fontSize="small" />
+                        <Typography variant="body2">
+                          Your booking is protected by Bikely's insurance policy
+                        </Typography>
+                      </Box>
+                      <ThemeProvider theme={buttonTheme1}>
+                      <Button
+                      onClick={handleBookingInfo}
+                      color="primary"
+                        variant="contained"
+                        fullWidth
+                        size="large"
+                        sx={{ mt: 3, textTransform:'none' }}
+                        startIcon={<CalendarIcon />}
+                      >
+                        Confirm Booking
+                      </Button>
+                      </ThemeProvider>
           </Grid>
         </Grid>
       </Container>
