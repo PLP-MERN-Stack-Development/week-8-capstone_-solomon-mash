@@ -20,3 +20,8 @@ Bikely/
 └── README.md
 ```
 
+## Features
+- Login/Register
+- Upload Bikes for rent
+- Booking System Implemented
+- Auto Receipt Generation
