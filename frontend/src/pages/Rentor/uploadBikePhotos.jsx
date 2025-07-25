@@ -1,6 +1,5 @@
-// UploadBikePhotos.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -61,7 +60,7 @@ const [model, setModel]=useState('');
 const [rent, setRent]=useState('');
 const { user } = useAuth();
 const tags = ['6-Gear lever','suspenion','water bottle']
-
+const navigate = useNavigate();
 
   const [uploadedImages, setUploadedImages] = useState([]);
   const [dragActive, setDragActive] = useState(false);
@@ -118,20 +117,18 @@ const handleBikeUpload = async () => {
   }
 
   try {
-    // Upload images to your backend (which uploads to Cloudinary)
     const formData = new FormData();
     uploadedImages.forEach(file => {
       formData.append("images", file);
     });
 
-    const uploadRes = await fetch("http://localhost:5000/api/upload", {
+    const uploadRes = await fetch("https://bikely-render.onrender.com/api/upload", {
       method: "POST",
       body: formData,
     });
 
     const { urls } = await uploadRes.json();
 
-    // Then submit the bike data
     const bikeData = {
       name: brand,
       owner: `${user?.first_name || ''} ${user?.last_name || ''}`.trim(),
@@ -148,7 +145,7 @@ const handleBikeUpload = async () => {
     };
     console.log(user?.first_name)
 
-    const res = await fetch("http://localhost:5000/api/bikes", {
+    const res = await fetch("https://bikely-render.onrender.com/api/bikes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -159,6 +156,7 @@ const handleBikeUpload = async () => {
     if (res.ok) {
       alert("Bike uploaded successfully!");
       clearFiles();
+      navigate('/browse-bikes')
     } else {
       const err = await res.json();
       console.error(err);
@@ -220,7 +218,7 @@ const handleBikeUpload = async () => {
       variant="contained"
       color="primary"
       startIcon={<CameraAlt />}
-      component="label"  // ← This makes Button act like a label
+      component="label"  
       sx={{ mt: 2 }}
     >
       Choose Photos

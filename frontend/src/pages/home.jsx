@@ -18,7 +18,6 @@ import PedalBikeOutlinedIcon from '@mui/icons-material/PedalBikeOutlined';
 import { useNavigate } from "react-router-dom";
 
 
-// ✅ Define full primary palette correctly
 const theme = createTheme({
   palette: {
     primary: {
@@ -874,6 +873,8 @@ const HomePage = ()=>{
         >
           <ThemeProvider theme={theme}>
             <Button
+              onClick={()=>navigate('/browse-bikes')}
+
               variant="contained"
               color="primary"
               sx={{ textTransform: 'none' }}
@@ -883,6 +884,7 @@ const HomePage = ()=>{
           </ThemeProvider>
           <ThemeProvider theme={buttonTheme2}>
             <Button
+            onClick={()=>navigate('/become-rentor')}
               variant="outlined"
               sx={{
                 textTransform: 'none',

@@ -28,6 +28,18 @@ const bookingSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  serviceFee:{
+    type: String,
+    required: true
+  },
+    subtotal:{
+        type: String,
+    required: true
+      },
+  total:{
+    type: String,
+    required: true
+  },
   phoneNumber: {
     type: String,
     required: true,

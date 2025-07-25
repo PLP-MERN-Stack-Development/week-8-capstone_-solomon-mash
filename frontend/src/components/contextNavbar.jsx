@@ -118,7 +118,7 @@ const ContextNavbar = () => {
                     </Button>
           
                     <ThemeProvider theme={buttonTheme1}>
-                      <Button variant="contained" color="primary" sx={{ textTransform: 'none' }}>
+                      <Button variant="contained" color="primary" sx={{ textTransform: 'none' }} onClick={() => navigate('/register')}>
                         Sign Up
                       </Button>
                     </ThemeProvider>

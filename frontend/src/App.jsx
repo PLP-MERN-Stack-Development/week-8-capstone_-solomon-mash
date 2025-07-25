@@ -7,6 +7,8 @@ import RentorDashboard from './pages/Rentor/RentorDashboard';
 import BrowseBikes from './pages/Rentee/BrowseBikesNearYou';
 import BookNow from './pages/Rentee/BookNow';
 import UploadBikePhotos from './pages/Rentor/uploadBikePhotos';
+import Receipt from './components/Receipt';
+
 function App() {
 
   return (
@@ -18,6 +20,8 @@ function App() {
       <Route path='/browse-bikes' element={<BrowseBikes />} />
       <Route path='/book-now/:id' element={<BookNow />} />
       <Route path='/upload-bike' element={<UploadBikePhotos />} />
+      <Route path="/booking/receipt/:id" element={<Receipt />} />
+   
    </Routes>
   )
 }

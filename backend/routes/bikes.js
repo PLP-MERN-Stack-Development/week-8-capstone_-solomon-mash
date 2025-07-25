@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Bike = require('../models/BikeModel'); // Your Mongoose model
+const Bike = require('../models/BikeModel');
 
 router.post('/', async (req, res) => {
   try {

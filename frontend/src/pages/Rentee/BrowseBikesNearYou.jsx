@@ -41,7 +41,7 @@ const BrowseBikes = () => {
 
     const fetchBikeData = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/bikes');
+      const res = await axios.get('https://bikely-render.onrender.com/api/bikes');
       setBikeData(res.data);
     } catch (err) {
       console.error('Failed to fetch bikes:', err);
@@ -116,14 +116,14 @@ const BrowseBikes = () => {
             valueLabelDisplay="auto"
             sx={{ maxWidth: 300 }}
           />
-          <Typography variant="body2">$5 - $25/day</Typography>
+          <Typography variant="body2">Kes 5 - Kes 300/day</Typography>
           </Box>
           
         </Box>
 
         {/* Results Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h6">6 bikes available near you</Typography>
+          <Typography variant="h6">Bikes available near you</Typography>
           <TextField select size="small" defaultValue="nearest">
             <MenuItem value="nearest">Nearest First</MenuItem>
             <MenuItem value="cheapest">Lowest Price</MenuItem>

@@ -139,7 +139,7 @@ const scrollTo = (id) => {
           </Button>
 
           <ThemeProvider theme={theme}>
-            <Button variant="contained" color="primary" sx={{ textTransform: 'none' }}>
+            <Button variant="contained" color="primary" sx={{ textTransform: 'none' }} onClick={() => navigate('/register')}>
               Sign Up
             </Button>
           </ThemeProvider>

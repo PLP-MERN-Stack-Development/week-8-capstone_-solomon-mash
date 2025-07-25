@@ -91,9 +91,12 @@ const BookNow = () => {
       email:email,
       cardNumber:card_number,
       expiryDate:expiry_date,
-      cvv:cvv
+      cvv:cvv,
+      total:total,
+      subtotal:subtotal,
+      serviceFee:serviceFee,
     }
-    const res = await fetch("http://localhost:5000/api/bookings", {
+    const res = await fetch("https://bikely-render.onrender.com/api/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -102,8 +105,11 @@ const BookNow = () => {
     });
 
     if (res.ok) {
-      alert("Booking Info Saved");
-      clearInfo();
+    const data = await res.json();
+    const bookingId = data.bookingId;
+    alert("Booking Info Saved");
+    navigate(`/booking/receipt/${bookingId}`);
+    clearInfo();
     } else {
       const err = await res.json();
       console.error(err);
@@ -115,7 +121,7 @@ const BookNow = () => {
   useEffect(() => {
     const fetchBike = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/bikes/${bikeId}`);
+        const res = await axios.get(`https://bikely-render.onrender.com/api/bikes/${bikeId}`);
         setBikeInfo(res.data);
       } catch (err) {
         console.error("Error fetching bike:", err);

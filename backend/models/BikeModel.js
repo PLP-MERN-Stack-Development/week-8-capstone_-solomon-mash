@@ -1,26 +1,3 @@
-// const mongoose = require('mongoose');
-
-// const bikeSchema = new mongoose.Schema({
-//   name: { type: String, required: true },
-//   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
-//   location: { type: String, required: true },
-//   type: { type: String, enum: ['city', 'mountain', 'electric'], required: true },
-//   distance: { type: String, required: true },
-//   rentPricePerDay: { type: Number, required: true },
-//   bikeImages: [{ type: String, required: true }], // <-- updated
-//   tags: [{ type: String }],
-//   available: { type: Boolean, default: true },
-//   createdAt: { type: Date, default: Date.now },
-//   description: { type: String, required: true },
-//   year: { type: String, required: true },
-//   color: { type: String, required: true },
-// });
-
-
-// module.exports = mongoose.model('Bike', bikeSchema);
-
-
-// models/Bike.js
 const mongoose = require('mongoose');
 
 const bikeSchema = new mongoose.Schema({

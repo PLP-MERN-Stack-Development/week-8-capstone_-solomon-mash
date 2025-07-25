@@ -111,7 +111,7 @@ const Register = () => {
       alert('This fields are required');
     }
     try{
-        const response = await axios.post('http://localhost:5000/api/auth/register', {first_name, last_name,email,phone,role,password});
+        const response = await axios.post('https://bikely-render.onrender.com/api/auth/register', {first_name, last_name,email,phone,role,password});
         if(response.status=='201'){
           login(response.data.user, response.data.token);
           alert('User registered sucessfully');
