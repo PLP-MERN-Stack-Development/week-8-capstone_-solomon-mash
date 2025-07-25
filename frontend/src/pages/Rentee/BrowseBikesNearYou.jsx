@@ -138,7 +138,7 @@ const BrowseBikes = () => {
               <Card
                 variant="outlined"
                 sx={{
-                  height: '300px',
+                  height: '350px',
                   width:'350px',
                   borderRadius: 3,
                   boxShadow: 1,
