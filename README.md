@@ -2,6 +2,7 @@
 - Connecting riders to bicycles, one pedal at a time.
 ![UI Screenshot](image.png)
 ## Project Structure
+```
 Bikely/
 ├── Frontend/               # React Frontend
 │   ├── components/
@@ -15,3 +16,4 @@ Bikely/
 │   ├── middleware/
 │   └── models/
 └── README.md
+```
