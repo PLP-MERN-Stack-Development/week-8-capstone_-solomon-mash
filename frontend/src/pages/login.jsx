@@ -10,10 +10,11 @@ import { lighten } from '@mui/system';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useAuth from "../context/UseAuth";
-import axios from "axios";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
+import API from '../api';
+
 
 const buttonTheme1 = createTheme({
   palette: {
@@ -72,7 +73,7 @@ const Login = () => {
     e.preventDefault();
 
     try{
-      const res = await axios.post('https://bikely-render.onrender.com/api/auth/login',{email, password});
+      const res = await API.post('/auth/login',{email, password});
       const token = res.data.token;
       const decoded = jwtDecode(token);
       const user={
@@ -82,6 +83,7 @@ const Login = () => {
         last_name:decoded.last_name
       }
       console.log(user);
+      localStorage.setItem('token',token);
       login(user,token);
 
       toast.success('Login Successful!');

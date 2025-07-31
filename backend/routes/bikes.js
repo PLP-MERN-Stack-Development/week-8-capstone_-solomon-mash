@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Bike = require('../models/BikeModel');
+const protect = require('../middleware/authMiddleware');
 
-router.post('/', async (req, res) => {
+
+router.post('/', protect,async (req, res) => {
   try {
-    const bike = new Bike(req.body);
+    const userId = req.user.id; // assuming you have an auth middleware that adds req.user
+    const bike = new Bike({ ...req.body, userRef: userId });
     await bike.save();
     res.status(201).json(bike);
   } catch (err) {
@@ -39,6 +42,8 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+
 
 
 module.exports = router;

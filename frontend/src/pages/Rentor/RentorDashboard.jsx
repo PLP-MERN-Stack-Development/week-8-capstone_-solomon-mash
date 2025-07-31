@@ -1,14 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import {
-  Box, Button, Container, Typography, Grid, Card, CardContent, CardHeader, TextField,
-  Avatar, IconButton
+  Box, Button, Container, Typography, Grid, Card,
+  Avatar
 } from "@mui/material";
-import { ArrowBack, BikeScooter,Shield, People, TrendingUp, Star, CameraAlt, AccessTime } from "@mui/icons-material";
+import { Shield, People, TrendingUp, Star, AccessTime } from "@mui/icons-material";
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import ContextNavbar from "../../components/contextNavbar";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system'
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import Footer from "../../components/footer";
 import { CalculateEarningsModal } from "../../components/CalculateEarningsModal";
 import useAuth from "../../context/UseAuth";

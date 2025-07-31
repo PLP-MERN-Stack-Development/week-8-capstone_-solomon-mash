@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const bikeSchema = new mongoose.Schema({
   name: String,
   owner: String,
+  userRef: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users', // Reference to the User model
+    required: true,
+  },
   location: String,
   type: String,
   distance: String,

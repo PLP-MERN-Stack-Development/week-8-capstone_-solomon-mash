@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -26,6 +26,7 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system'
 import useAuth from "../../context/UseAuth";
+import API from '../../api';
 
 
 
@@ -122,12 +123,9 @@ const handleBikeUpload = async () => {
       formData.append("images", file);
     });
 
-    const uploadRes = await fetch("https://bikely-render.onrender.com/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+    const uploadRes = await API.post("/upload", formData);
 
-    const { urls } = await uploadRes.json();
+    const { urls } = await uploadRes.data;
 
     const bikeData = {
       name: brand,
@@ -144,24 +142,20 @@ const handleBikeUpload = async () => {
       color,
     };
     console.log(user?.first_name)
+    const token = localStorage.getItem('token') // or context
 
-    const res = await fetch("https://bikely-render.onrender.com/api/bikes", {
-      method: "POST",
+    const res = await API.post("/bikes",bikeData, {
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bikeData),
-    });
+        "Authorization": `Bearer ${token}`,
 
-    if (res.ok) {
-      alert("Bike uploaded successfully!");
-      clearFiles();
-      navigate('/browse-bikes')
-    } else {
-      const err = await res.json();
-      console.error(err);
-      alert("Failed to upload bike.");
-    }
+      },
+    });
+   
+    
+    alert("Bike uploaded successfully!");
+    clearFiles();
+    navigate('/browse-bikes');
   } catch (err) {
     console.error(err);
     alert("An error occurred while uploading.");

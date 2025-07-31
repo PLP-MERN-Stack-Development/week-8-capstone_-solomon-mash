@@ -41,7 +41,7 @@ const Navbar = () => {
   }
 const scrollTo = (id) => {
   const section = document.getElementById(id);
-  const navbar = document.getElementById('navbar'); // Add this ID to your navbar
+  const navbar = document.getElementById('navbar'); 
 
   if (section && navbar) {
     const navbarHeight = navbar.offsetHeight;
@@ -125,6 +125,26 @@ const scrollTo = (id) => {
           >
             Pricing
           </Typography>
+          {user?.role == 'rentor' && (
+          <Typography
+            variant="body2"
+            onClick={()=>navigate('/dashboard')}
+            sx={{ cursor: 'pointer' }}
+          >
+            Dashboard
+          </Typography>
+          )}
+
+          {user?.role == 'client' && (
+          <Typography
+            variant="body2"
+            onClick={()=>navigate('/client-dashboard')}
+            sx={{ cursor: 'pointer' }}
+          >
+            Dashboard
+          </Typography>
+          )}
+            
           {/* if authenticated */}
           {user? (
             <>

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import {
   Box,
   Paper,
@@ -12,6 +11,8 @@ import {
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 import PrintIcon from '@mui/icons-material/Print';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import API from '../api.js';
+
 
 const Receipt = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const Receipt = () => {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const res = await axios.get(`https://bikely-render.onrender.com/api/bookings/${id}`);
+        const res = await API.get(`/bookings/booking/${id}`);
         setBooking(res.data);
         setTimeout(() => window.print(), 500); // Auto print
       } catch (err) {
@@ -42,14 +43,12 @@ const Receipt = () => {
   }
 
   const {
-    firstName,
-    lastName,
+    user,
     email,
     phoneNumber,
     pickupTime,
     returnTime,
     rentDuration,
-    serviceFee,
     subtotal,
     total,
     bike,
@@ -80,7 +79,7 @@ const Receipt = () => {
             Booking Confirmed!
           </Typography>
           <Typography variant="body1">
-            Thank you, {firstName}, for choosing Bikely. Below is your receipt.
+            Thank you, {user.first_name}, for choosing Bikely. Below is your receipt.
           </Typography>
         </Box>
 
@@ -88,7 +87,7 @@ const Receipt = () => {
           {/* Customer Info */}
           <Box>
             <Typography variant="h6" gutterBottom>Customer Details</Typography>
-            <Typography><strong>Name:</strong> {firstName} {lastName}</Typography>
+            <Typography><strong>Name:</strong> {user.first_name} {user.last_name}</Typography>
             <Typography><strong>Email:</strong> {email}</Typography>
             <Typography><strong>Phone:</strong> {phoneNumber}</Typography>
           </Box>
@@ -107,7 +106,7 @@ const Receipt = () => {
           <Box>
             <Typography variant="h6" gutterBottom>Payment Summary</Typography>
             <Typography><strong>Subtotal:</strong> KES {subtotal.toLocaleString()}</Typography>
-            <Typography><strong>Service Fee:</strong> KES {serviceFee.toLocaleString()}</Typography>
+            {/* <Typography><strong>Service Fee:</strong> KES {serviceFee.toLocaleString()}</Typography> */}
             <Typography variant="h6" fontWeight="bold" mt={1}>
               Total Paid: KES {total.toLocaleString()}
             </Typography>

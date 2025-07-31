@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, TextField, MenuItem, Slider, Button, Card, CardContent,
-  CardActions, Chip, Grid, IconButton, InputAdornment, Badge, Select
+  CardActions, Chip, Grid, IconButton, InputAdornment, Badge, Select,Container
 } from '@mui/material';
 import { Search, Tune, Star } from '@mui/icons-material';
 import ContextNavbar from "../../components/contextNavbar";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import API from '../../api';
 
 const buttonTheme1 = createTheme({
   palette: {
@@ -41,7 +40,7 @@ const BrowseBikes = () => {
 
     const fetchBikeData = async () => {
     try {
-      const res = await axios.get('https://bikely-render.onrender.com/api/bikes');
+      const res = await API.get('/bikes');
       setBikeData(res.data);
     } catch (err) {
       console.error('Failed to fetch bikes:', err);
@@ -55,6 +54,14 @@ const BrowseBikes = () => {
   }, []);
 
   const navigate = useNavigate();
+
+  if (loading) {
+      return (
+        <Container sx={{ py: 6 }}>
+          <Typography variant="h6">Loading please wait...</Typography>
+        </Container>
+      );
+    }
   return (
     <>
       <ContextNavbar />

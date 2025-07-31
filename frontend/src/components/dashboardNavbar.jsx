@@ -5,7 +5,7 @@ import { useState } from 'react';
 import useAuth from '../context/UseAuth';
 
 
-const ContextNavbar = () => {
+const DashboardNavbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
@@ -79,29 +79,30 @@ const ContextNavbar = () => {
             width: { xs: '100%', md: 'auto' },
           }}
         >
+         {user?.role == 'rentor' && (
+
+        <Typography variant="subtitle2" fontSize={11} sx={{cursor:'pointer'}} onClick={()=>navigate('/')}>
+                      Home
+                    </Typography>
+          ) }
+
 
           {/* if authenticated */}
                     {user? (
                       <>
-                      {/* <Button variant="outlined" sx={{ textTransform: 'none' }} onClick={handleLogout}>
-            Logout
-          </Button> */}
+                      
           <Typography variant="subtitle2" fontSize={11} sx={{cursor:'pointer'}} onClick={handleLogout}>
                       Logout
                     </Typography>
                       </>
                     ): (
                       <>
-                      <Typography variant="subtitle2" fontSize={11} sx={{cursor:'pointer'}} onClick={() => navigate('/login')}>
+                     
+                    <Typography variant="subtitle2" fontSize={11} sx={{cursor:'pointer'}} onClick={() => navigate('/login')}>
                       Login
                     </Typography>
           
-                    {/* <ThemeProvider theme={buttonTheme1}>
-                      <Button variant="contained" color="primary" sx={{ textTransform: 'none' }} onClick={() => navigate('/register')}>
-                        Sign Up
-                      </Button>
-                    </ThemeProvider> */}
-
+             
                     <Typography variant="subtitle2" fontSize={11} sx={{cursor:'pointer'}} fontWeight='bold' onClick={() => navigate('/register')}>
                       Sign Up
                     </Typography>
@@ -116,4 +117,4 @@ const ContextNavbar = () => {
   );
 };
 
-export default ContextNavbar;
+export default DashboardNavbar;

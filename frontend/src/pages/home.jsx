@@ -42,7 +42,7 @@ const theme = createTheme({
 const buttonTheme1 = createTheme({
   palette: {
     primary: {
-      main: '#1c3b4a', // vibrant yellow-gold
+      main: '#1c3b4a', // blackish
       contrastText: '#e5ebe5',
     },
   },
@@ -63,7 +63,7 @@ const buttonTheme1 = createTheme({
 const buttonTheme2 = createTheme({
   palette: {
     primary: {
-      main: '#ffffff', // vibrant yellow-gold
+      main: '#ffffff', // clear color
       contrastText: '#46949d',
     },
   },
@@ -85,7 +85,7 @@ const buttonTheme2 = createTheme({
 const buttonTheme3 = createTheme({
   palette: {
     primary: {
-      main: '#2f6a3f', // vibrant yellow-gold
+      main: '#2f6a3f', // light green
       contrastText: '#ffffff',
     },
   },

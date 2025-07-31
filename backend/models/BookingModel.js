@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+
 
 const bookingSchema = new mongoose.Schema({
   bike: {
@@ -6,60 +7,47 @@ const bookingSchema = new mongoose.Schema({
     ref: "Bike",
     required: true,
   },
-  rentDuration: {
+  user: {  // ← the one booking the bike
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  rentor: {  // ← the owner of the bike
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  rentDuration: Number,
+  pickupTime: String,
+  returnTime: String,
+
+  serviceFee: String,
+  subtotal: String,
+  total: String,
+
+  // Consider changing these to Numbers for calculations
+  // or we'll parseFloat() them in analytics APIs
+
+  phoneNumber: String,
+  email: String,
+
+  // For security: consider removing or encrypting payment info
+  cardNumber: String,
+  expiryDate: String,
+  cvv: String,
+
+  status: {
+    type: String,
+    enum: ["to be picked", "active", "completed", "not booked"],
+    default: "not booked",
+  },
+
+  rating: {
     type: Number,
-    required: true,
+    min: 1,
+    max: 5,
   },
-  pickupTime: {
-    type: String,
-    required: true,
-  },
-  returnTime: {
-    type: String,
-    required: true,
-  },
-  firstName: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  serviceFee:{
-    type: String,
-    required: true
-  },
-    subtotal:{
-        type: String,
-    required: true
-      },
-  total:{
-    type: String,
-    required: true
-  },
-  phoneNumber: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  cardNumber: {
-    type: String,
-    required: true,
-  },
-  expiryDate: {
-    type: String,
-    required: true,
-  },
-  cvv: {
-    type: String,
-    required: true,
-  },
+
   createdAt: {
     type: Date,
     default: Date.now,

@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import {useState} from 'react';
-import axios from "axios";
 import useAuth from '../context/UseAuth';
+import API from '../api';
 
 
 
@@ -111,7 +111,7 @@ const Register = () => {
       alert('This fields are required');
     }
     try{
-        const response = await axios.post('https://bikely-render.onrender.com/api/auth/register', {first_name, last_name,email,phone,role,password});
+        const response = await API.post('/auth/register', {first_name, last_name,email,phone,role,password});
         if(response.status=='201'){
           login(response.data.user, response.data.token);
           alert('User registered sucessfully');

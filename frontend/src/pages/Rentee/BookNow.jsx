@@ -25,7 +25,7 @@ import {
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system'
-import axios from "axios";
+import API from '../../api';
 
 
 const buttonTheme1 = createTheme({
@@ -96,32 +96,28 @@ const BookNow = () => {
       subtotal:subtotal,
       serviceFee:serviceFee,
     }
-    const res = await fetch("https://bikely-render.onrender.com/api/bookings", {
-      method: "POST",
+    const token = localStorage.getItem('token') // or context
+    console.log(token)
+    const res = await API.post("/bookings", bookingInfo, {
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bookingInfo),
-    });
+        "Authorization": `Bearer ${token}`,
 
-    if (res.ok) {
-    const data = await res.json();
-    const bookingId = data.bookingId;
+      },
+    });
+    const bookingId = res.data.bookingId;
+    
     alert("Booking Info Saved");
     navigate(`/booking/receipt/${bookingId}`);
     clearInfo();
-    } else {
-      const err = await res.json();
-      console.error(err);
-      alert("Failed to Book.");
-    }
+    
   }
   
 
   useEffect(() => {
     const fetchBike = async () => {
       try {
-        const res = await axios.get(`https://bikely-render.onrender.com/api/bikes/${bikeId}`);
+        const res = await API.get(`/bikes/${bikeId}`);
         setBikeInfo(res.data);
       } catch (err) {
         console.error("Error fetching bike:", err);
@@ -146,7 +142,7 @@ const BookNow = () => {
     return {
       subtotal,
       serviceFee,
-      total: subtotal + serviceFee,
+      total: subtotal,
     };
   };
 
