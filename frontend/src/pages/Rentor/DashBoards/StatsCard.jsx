@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardContent, Typography, Box, Avatar, Stack,Container } from '@mui/material';
-import { AttachMoney, DirectionsBike, CalendarToday, Star } from '@mui/icons-material';
+import { Grid, Card, CardContent, Typography, Box, Avatar, Stack,} from '@mui/material';
+import { AttachMoney, DirectionsBike, CalendarToday } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import API from '../../../api';
 
 
 
@@ -17,38 +15,8 @@ const goldTheme = createTheme({
 
 
 
-const StatsCards = () => {
-  const [statsData, setStatsData]=useState([]);
-  const [loading, setLoading]=useState(true);
+const StatsCards = ({statsData}) => {
 
-  const fetchStatsData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await API.get('/analytics/rentor', {
-        headers: {
-        "Authorization": `Bearer ${token}`,
-        }
-      });
-      setStatsData(res.data);
-      console.log(res.data);
-
-    } catch (err) {
-      console.error('Failed to fetch analytics data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchStatsData();
-  }, []);
-  if (loading) {
-        return (
-          <Container sx={{ py: 6 }}>
-            <Typography variant="h6">Loading please wait...</Typography>
-          </Container>
-        );
-      }
 
 
   return (

@@ -1,40 +1,17 @@
-import React, {useState, useEffect} from 'react';
 import {
   Card, CardHeader, CardContent, Avatar, Typography, Chip, Box, Stack, Divider, Container,
 } from '@mui/material';
 import API from '../../../api';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const getInitials = (name) => name.split(" ").map(n => n[0]).join("");
 
-const RecentBookings = () =>{
+const RecentBookings = ({recentBookingsData}) =>{
+  const navigate = useNavigate();
   
 
-  const [recentBookingsData, setRecentBookingData]=useState([]);
-  const [loading, setLoading]=useState(true);
-
-  const fetchRecentBookingData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await API.get('/bookings/rentor-bookings', {
-        headers: {
-        "Authorization": `Bearer ${token}`,
-        }
-      });
-      setRecentBookingData(res.data);
-      console.log(res.data);
-
-    } catch (err) {
-      console.error('Failed to fetch analytics data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchRecentBookingData();
-  }, []);
 
   const handleReturn = async (bookingId) => {
   try {
@@ -47,7 +24,7 @@ const RecentBookings = () =>{
     
 
     // Refresh the bookings
-    fetchRecentBookingData();
+    navigate('/dashboard');
   } catch (err) {
     console.error("Error marking booking as returned:", err);
   }
@@ -63,19 +40,13 @@ const handleActive = async (bookingId) => {
     
 
     // Refresh the bookings
-    fetchRecentBookingData();
+    navigate('/dashboard');
   } catch (err) {
     console.error("Error marking booking as active:", err);
   }
 };
 
-  if (loading) {
-        return (
-          <Container sx={{ py: 6 }}>
-            <Typography variant="h6">Loading please wait...</Typography>
-          </Container>
-        );
-      }
+ 
   return(
   <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
     <CardHeader

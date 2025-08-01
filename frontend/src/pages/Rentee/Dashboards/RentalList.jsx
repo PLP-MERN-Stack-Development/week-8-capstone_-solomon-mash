@@ -48,7 +48,6 @@ const RentalList = ({ type }) => {
   const [rentalData,setRentalData]=useState([]);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [loading, setLoading]=useState(true);
-  // const [isFavorite, setIsFavorite] = useState(false);
   const token = localStorage.getItem('token');
 
   const [favorites, setFavorites] = useState({});

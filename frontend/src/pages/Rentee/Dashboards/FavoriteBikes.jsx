@@ -8,8 +8,6 @@ import PlaceIcon from "@mui/icons-material/Place";
 import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system';
-import { useState,useEffect } from "react";
-import API from '../../../api';
 
 const buttonTheme1 = createTheme({
   palette: {
@@ -34,39 +32,8 @@ const buttonTheme1 = createTheme({
 });
 
 
-const FavoriteBikes = () => {
-  const [favoriteBikes, setFavoriteBikes]=useState([]);
-  const [loading, setLoading]=useState(true);
-  const token = localStorage.getItem('token');
+const FavoriteBikes = ({favoriteBikes}) => {
 
-    const fetchFavoriteBikes = async () => {
-      try {
-        const res = await API.get('/client/favorites', {
-          headers: {
-          "Authorization": `Bearer ${token}`,
-          }
-        });
-        setFavoriteBikes(res.data);
-        console.log(res.data);
-  
-      } catch (err) {
-        console.error('Failed to fetch favorite bikes data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    useEffect(() => {
-      fetchFavoriteBikes();
-    }, []);
-
-  if (loading) {
-          return (
-            <Container sx={{ py: 6 }}>
-              <Typography variant="h6">Loading please wait...</Typography>
-            </Container>
-          );
-        }
   return (
     <Grid container spacing={3}>
       {favoriteBikes.map((bike) => (

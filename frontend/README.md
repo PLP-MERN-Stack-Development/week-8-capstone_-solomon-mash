@@ -1,12 +1,27 @@
-# React + Vite
+# Bikely - PLP Mern Final Project
+- Connecting riders to bicycles, one pedal at a time.
+##### Visit: [https://bikely-app.vercel.app/](https://bikely-app.vercel.app/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![UI Screenshot](image.png)
+## Project Structure
+```
+Bikely/
+├── Frontend/               # React Frontend
+│   ├── components/
+│   ├── assets/
+│   ├── context/
+│   ├── pages/
+│   └── App.jsx
+├── Backend/               # Express Backend
+│   ├── routes/
+│   ├── controllers/
+│   ├── middleware/
+│   └── models/
+└── README.md
+```
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+- Login/Register
+- Upload Bikes for rent
+- Booking System Implemented
+- Auto Receipt Generation

@@ -145,12 +145,14 @@ const BrowseBikes = () => {
               <Card
                 variant="outlined"
                 sx={{
-                  height: '350px',
-                  width:'350px',
-                  borderRadius: 3,
-                  boxShadow: 1,
-                  transition: '0.3s',
-                  '&:hover': { boxShadow: 4 }
+                  height: '100%',
+                  width:'300px',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: 3,
+              boxShadow: 2,
+              transition: '0.3s',
+              '&:hover': { boxShadow: 5 },
                 }}
               >
                 <Box position="relative">
@@ -158,7 +160,7 @@ const BrowseBikes = () => {
                     component="img"
                     src={Object.values(bike.bikeImages)[0]}
                     alt={bike.name}
-                    sx={{ width: '100%', height: 120, objectFit: 'contain', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+                    sx={{ width: '100%', height: 180, objectFit: 'contain', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
                   />
                   <Box
                     position="absolute"

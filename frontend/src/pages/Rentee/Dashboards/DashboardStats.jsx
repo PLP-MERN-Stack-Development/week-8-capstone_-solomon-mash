@@ -11,43 +11,12 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarIcon from "@mui/icons-material/Star";
-import { useState, useEffect } from "react";
-import API from '../../../api';
 
-const DashboardStats = () => {
 
-  const [statsData, setStatsData]=useState([]);
-  const [loading, setLoading]=useState(true);
+const DashboardStats = ({statsData}) => {
 
-  const fetchStatsData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await API.get('/stats/client', {
-        headers: {
-        "Authorization": `Bearer ${token}`,
-        }
-      });
-      setStatsData(res.data);
-      console.log(res.data);
 
-    } catch (err) {
-      console.error('Failed to fetch Stats Data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  useEffect(() => {
-    fetchStatsData();
-  }, []);
-
-  if (loading) {
-          return (
-            <Container sx={{ py: 6 }}>
-              <Typography variant="h6">Loading please wait...</Typography>
-            </Container>
-          );
-        }
   return (
     <Grid container display='flex' gap={1}>
         <Grid item xs={12} sm={6} md={3} minWidth='250px'>

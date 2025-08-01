@@ -10,44 +10,11 @@ import {
   Container
 } from '@mui/material';
 import { TrendingUp, BarChart } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
-import API from '../../../api';
 
 
-const AnalyticsPanel = () => {
+const AnalyticsPanel = ({analyticsData}) => {
   const theme = useTheme();
-  const [analyticsData, setAnalyticsData]=useState([]);
-  const [loading, setLoading]=useState(true);
 
-    const fetchAnalyticsData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await API.get('/analytics/rentor', {
-        headers: {
-        "Authorization": `Bearer ${token}`,
-        }
-      });
-      setAnalyticsData(res.data);
-      console.log(res.data);
-
-    } catch (err) {
-      console.error('Failed to fetch analytics data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAnalyticsData();
-  }, []);
-
-if (loading) {
-      return (
-        <Container sx={{ py: 6 }}>
-          <Typography variant="h6">Loading please wait...</Typography>
-        </Container>
-      );
-    }
   return (
     <Grid display='flex' justifyContent='space-around'>
       <Grid item xs={12} lg={6} width='45%'>

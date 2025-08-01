@@ -5,7 +5,6 @@ import {
   CardHeader,
   Typography,
   Button,
-  Container,
   Avatar,
   Chip,
   Box,
@@ -15,14 +14,11 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import PersonIcon from "@mui/icons-material/Person";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { lighten } from '@mui/system';
-import { useState, useEffect } from "react";
-import API from '../../../api';
-
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#ffffff', // vibrant yellow-gold
+      main: '#ffffff',
       contrastText: '#000000',
     },
   },
@@ -33,7 +29,7 @@ const theme = createTheme({
           backgroundColor: '#ffffff',
           color: '#000000',
           '&:hover': {
-            backgroundColor: lighten('#efb506', 0.1), // lighten by 10%
+            backgroundColor: lighten('#efb506', 0.1),
           },
         },
       },
@@ -43,47 +39,13 @@ const theme = createTheme({
 
 const getInitials = (name) => name.split(" ").map(n => n[0]).join("");
 
-
-const ProfileSection = () => {
-  const [userInfo, setUserInfo]=useState([]);
-  const [loading, setLoading]=useState(true);
-  const token = localStorage.getItem('token');
-  
-  useEffect(() => {
-      const fetchUserInfo = async () => {
-        try {
-          const res = await API.get(`/profile`, {
-            headers:{
-              'Authorization':`Bearer ${token}`,
-            }
-          });
-          setUserInfo(res.data);
-        } catch (err) {
-          console.error("Error fetching User Details:", err);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchUserInfo();
-    }, []);
-
-  
- if (loading) {
-          return (
-            <Container sx={{ py: 6 }}>
-              <Typography variant="h6">Loading please wait...</Typography>
-            </Container>
-          );
-        }
+const ProfileSection = ({ userInfo }) => {
   return (
-    <Grid container spacing={3} mx='auto'>
+    <Grid container spacing={3} justifyContent="center">
       {/* Profile Info */}
-      <Box mx='auto'display='flex' gap={2} width='90%' >
-          <Grid item xs={12} md={6}>
+      <Grid item xs={12} sm={6} md={4}>
         <Card
           sx={{
-            width:'300px',
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -97,8 +59,9 @@ const ProfileSection = () => {
           />
           <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
             <Box display="flex" alignItems="center" gap={2} mb={2}>
-              <Avatar sx={{ width: 50, height: 50, bgcolor: '#f1f5f9', color:'black' }}>
-                  {getInitials(`${userInfo?.first_name || ''} ${userInfo?.last_name || ''}`)}              </Avatar>
+              <Avatar sx={{ width: 50, height: 50, bgcolor: '#f1f5f9', color: 'black' }}>
+                {getInitials(`${userInfo?.first_name || ''} ${userInfo?.last_name || ''}`)}
+              </Avatar>
               <Box>
                 <Typography variant="subtitle1" fontWeight={600}>
                   {userInfo.first_name} {userInfo.last_name}
@@ -113,21 +76,25 @@ const ProfileSection = () => {
             </Box>
             <Box mt="auto">
               <ThemeProvider theme={theme}>
-                <Button variant="outlined" fullWidth color="primary" sx={{borderStyle:'solid', borderWidth:'2px', borderColor:'#e9ecf2', borderRadius:'5px'}}>
-                Edit Profile
-              </Button>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  color="primary"
+                  sx={{ borderStyle: 'solid', borderWidth: '2px', borderColor: '#e9ecf2', borderRadius: '5px' }}
+                >
+                  Edit Profile
+                </Button>
               </ThemeProvider>
-              
             </Box>
           </CardContent>
         </Card>
       </Grid>
 
       {/* Payment Methods */}
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} sm={6} md={4}>
         <Card
           sx={{
-            width:'300px',
+            minWidth:'300px',
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -156,26 +123,28 @@ const ProfileSection = () => {
                   Expires 12/26
                 </Typography>
               </Box>
-              <Chip label="Default" variant="outlined" color="success" sx={{borderRadius:'5px'}} />
+              <Chip label="Default" variant="outlined" color="success" sx={{ borderRadius: '5px' }} />
             </Box>
             <Box mt="auto">
               <ThemeProvider theme={theme}>
-              <Button variant="outlined" fullWidth color="primary" sx={{borderStyle:'solid', borderWidth:'2px', borderColor:'#e9ecf2', borderRadius:'5px'}}>
-                Add Payment Method
-              </Button>
-
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  color="primary"
+                  sx={{ borderStyle: 'solid', borderWidth: '2px', borderColor: '#e9ecf2', borderRadius: '5px' }}
+                >
+                  Add Payment Method
+                </Button>
               </ThemeProvider>
-              
             </Box>
           </CardContent>
         </Card>
       </Grid>
 
       {/* Preferences */}
-      <Grid item xs={12}>
+      <Grid item xs={12} md={8}>
         <Card
           sx={{
-            width:'300px',
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -188,34 +157,35 @@ const ProfileSection = () => {
             title="Preferences"
           />
           <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-            <Grid mb={2}>
-              <Grid xs={12} sm={4} display='flex' alignItems='center' justifyContent='space-between'  >
+            <Grid container spacing={1} mb={2}>
+              <Grid item xs={12} sm={6} md={4} display="flex" justifyContent="space-between" alignItems="center">
                 <Typography fontWeight={500}>Email Notifications</Typography>
-                <Chip label="Enabled" variant="outlined" color='black'sx={{borderRadius:'4px', height:'25px'}} />
+                <Chip label="Enabled" variant="outlined" color="default" sx={{ borderRadius: '4px', height: '25px' }} />
               </Grid>
-              <Grid xs={12} sm={4} display='flex' alignItems='center' justifyContent='space-between'mt={1} >
+              <Grid item xs={12} sm={6} md={4} display="flex" justifyContent="space-between" alignItems="center">
                 <Typography fontWeight={500}>SMS Notifications</Typography>
-                <Chip label="Disabled" variant="outlined" color='black'sx={{borderRadius:'4px', height:'25px'}} />
+                <Chip label="Disabled" variant="outlined" color="default" sx={{ borderRadius: '4px', height: '25px' }} />
               </Grid>
-              <Grid xs={12} sm={4} display='flex' alignItems='center' justifyContent='space-between' mt={1} >
+              <Grid item xs={12} sm={6} md={4} display="flex" justifyContent="space-between" alignItems="center">
                 <Typography fontWeight={500}>Location Services</Typography>
-                <Chip label="Enabled" variant="outlined" color='black'sx={{borderRadius:'4px', height:'25px'}} />
+                <Chip label="Enabled" variant="outlined" color="default" sx={{ borderRadius: '4px', height: '25px' }} />
               </Grid>
             </Grid>
             <Box mt="auto">
               <ThemeProvider theme={theme}>
-              <Button variant="outlined" fullWidth color="primary" sx={{borderStyle:'solid', borderWidth:'2px', borderColor:'#e9ecf2', borderRadius:'5px'}}>
-                Manage Preferences
-              </Button>
-
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  color="primary"
+                  sx={{ borderStyle: 'solid', borderWidth: '2px', borderColor: '#e9ecf2', borderRadius: '5px' }}
+                >
+                  Manage Preferences
+                </Button>
               </ThemeProvider>
-              
             </Box>
           </CardContent>
         </Card>
       </Grid>
-      </Box>
-      
     </Grid>
   );
 };
