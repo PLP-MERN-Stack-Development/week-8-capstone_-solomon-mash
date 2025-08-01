@@ -1,5 +1,5 @@
 # Bikely - PLP Mern Final Project
-- Connecting riders to bicycles, one pedal at a time.
+##### Connecting riders to bicycles, one pedal at a time.
 ##### Visit: [https://bikely-app.vercel.app/](https://bikely-app.vercel.app/)
 
 ![UI Screenshot](image.png)
